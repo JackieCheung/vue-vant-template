@@ -48,7 +48,7 @@ HttpRequest.interceptors.response.use(
     if (res.status && res.status !== 200) {
       // 登录超时,重新登录
       if (res.status === 401) {
-        store.dispatch('FedLogOut').then(() => {
+        store.dispatch('user/resetToken').then(() => {
           location.reload()
         })
       }

@@ -38,6 +38,7 @@
     "fastclick": "^1.0.6",
     "mockjs": "^1.0.1-beta3",
     "normalize.css": "8.0.1",
+    "nprogress": "^0.2.0",
     "postcss-px-to-viewport": "^1.1.1",
     "vant": "^2.1.4",
     "vue": "^2.6.10",

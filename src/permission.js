@@ -2,6 +2,8 @@ import router from './router'
 import store from './store'
 import { getToken } from '@/utils/auth' // get token from localStorage
 import defaultSettings from '@/config/index.js'
+import NProgress from 'nprogress' // progress bar
+import 'nprogress/nprogress.css' // progress bar style
 
 const getPageTitle = (pageTitle) => {
   return pageTitle ? `${pageTitle} - ${defaultSettings.title || 'vue vant template'}` : `${defaultSettings.title || 'vue vant template'}`
@@ -10,6 +12,9 @@ const getPageTitle = (pageTitle) => {
 const whiteLists = ['/login'] // no redirect whitelist
 
 router.beforeEach(async(to, from, next) => {
+  // start progress bar
+  NProgress.start()
+
   // set page title
   document.title = getPageTitle(to.meta.title)
 
@@ -20,10 +25,13 @@ router.beforeEach(async(to, from, next) => {
     if (to.path === '/login') {
       // if is logged in, redirect to the home page
       next({ path: '/' })
+      NProgress.done()
     } else {
       // determine whether the user has obtained his permission roles through getInfo
       const hasRoles = store.getters.roles && store.getters.roles.length > 0
       if (hasRoles) {
+        // when has roles it means that all accessible routes have been generated
+        // if visit a page without permission, it will automatically enter the 404 page
         next()
       } else {
         try {
@@ -47,6 +55,7 @@ router.beforeEach(async(to, from, next) => {
           // remove token and go to login page to re-login
           await store.dispatch('user/resetToken')
           next(`/login?redirect=${to.path}`)
+          NProgress.done()
         }
       }
     }
@@ -58,9 +67,11 @@ router.beforeEach(async(to, from, next) => {
     } else {
       // other pages that do not have permission to access are redirected to the login page.
       next(`/login?redirect=${to.path}`)
+      NProgress.done()
     }
   }
 })
 router.afterEach(() => {
   // todo
+  NProgress.done()
 })
