@@ -1,7 +1,7 @@
 {
   "name": "vue-vant-template",
   "version": "0.0.1",
-  "description": "A vue mobile template with Vue-CLI 3.0, Vuex, Vue-Router, Vant, Axios, Sass, Mock, Eslint and Viewport adaptation scheme...",
+  "description": "A vue mobile template with Vue-CLI, Vuex, Vue-Router, Vant, Axios, Scss, Mock, Eslint and Viewport adaptation scheme...",
   "author": "Jackie <JackieCheung517@gmail.com>",
   "license": "MIT",
   "scripts": {
