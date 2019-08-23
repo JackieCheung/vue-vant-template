@@ -14,7 +14,9 @@ const name = defaultSettings.title || 'vue vant template' // page title
 // If your port is set to 80,
 // use administrator privileges to execute the command line.
 // For example, Mac: sudo npm run
-const port = 9605 // dev port
+// You can change the port by the following method:
+// port = 9605 npm run dev OR npm run dev --port = 9605
+const port = process.env.port || process.env.npm_config_port || 9605 // dev port
 
 const externals = {
   vue: 'Vue',
@@ -97,7 +99,7 @@ module.exports = {
   configureWebpack: config => {
     // 为生产环境修改配置...
     if (process.env.NODE_ENV === 'production') {
-      // externals里的模块不打包
+      // externals 里的模块不打包
       Object.assign(config, {
         // provide the app's title in webpack's name field, so that
         // it can be accessed in index.html to inject the correct title.
