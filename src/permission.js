@@ -1,7 +1,7 @@
 import router from './router'
 import store from './store'
 import { getToken } from '@/utils/auth' // get token from localStorage
-import defaultSettings from '@/config/index.js'
+import defaultSettings from '@/config/index'
 import NProgress from 'nprogress' // progress bar
 import 'nprogress/nprogress.css' // progress bar style
 
