@@ -9,7 +9,7 @@ const getPageTitle = (pageTitle) => {
   return pageTitle ? `${pageTitle} - ${defaultSettings.title || 'vue vant template'}` : `${defaultSettings.title || 'vue vant template'}`
 }
 
-const whiteLists = ['/login'] // no redirect whitelist
+const whiteLists = ['/login', '/register'] // free login whitelists
 
 router.beforeEach(async(to, from, next) => {
   // start progress bar
