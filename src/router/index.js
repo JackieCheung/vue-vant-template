@@ -15,6 +15,12 @@ export const constantRoutes = [
   // when your routing map is too long, you can split it into small modules.
 ]
 
+/**
+ * asyncRoutes
+ * the routes that need to be dynamically loaded based on user roles
+ */
+export const asyncRoutes = []
+
 // add route path
 constantRoutes.forEach(route => {
   route.path = route.path || '/' + (route.name || '')
