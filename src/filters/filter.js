@@ -2,7 +2,7 @@
  *格式化时间
  *yyyy-MM-dd hh:mm:ss
  */
-export function formatDate(time, fmt) {
+export function formatDate (time, fmt) {
   if (time === undefined || '') {
     return
   }
@@ -26,13 +26,13 @@ export function formatDate(time, fmt) {
   return fmt
 }
 
-function padLeftZero(str) {
+function padLeftZero (str) {
   return ('00' + str).substr(str.length)
 }
 
 /*
  * 隐藏用户手机号中间四位
  */
-export function hidePhone(phone) {
+export function hidePhone (phone) {
   return phone.replace(/(\d{3})\d{4}(\d{4})/, '$1****$2')
 }

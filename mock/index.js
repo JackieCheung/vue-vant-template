@@ -10,11 +10,11 @@ const mocks = [
 // for front mock
 // please use it cautiously, it will redefine XMLHttpRequest,
 // which will cause many of your third-party libraries to be invalidated(like progress event).
-export function mockXHR() {
+export function mockXHR () {
   // mock patch
   // https://github.com/nuysoft/Mock/issues/300
   Mock.XHR.prototype.proxy_send = Mock.XHR.prototype.send
-  Mock.XHR.prototype.send = function() {
+  Mock.XHR.prototype.send = function () {
     if (this.custom.xhr) {
       this.custom.xhr.withCredentials = this.withCredentials || false
 
@@ -25,8 +25,8 @@ export function mockXHR() {
     this.proxy_send(...arguments)
   }
 
-  function XHR2ExpressReqWrap(respond) {
-    return function(options) {
+  function XHR2ExpressReqWrap (respond) {
+    return function (options) {
       let result = null
       if (respond instanceof Function) {
         const { body, type, url } = options
@@ -53,7 +53,7 @@ const responseFake = (url, type, respond) => {
   return {
     url: new RegExp(`/mock${url}`),
     type: type || 'get',
-    response(req, res) {
+    response (req, res) {
       res.json(Mock.mock(respond instanceof Function ? respond(req, res) : respond))
     }
   }

@@ -10,10 +10,10 @@
   export default {
     name: 'AppMain',
     computed: {
-      cachedViews() {
+      cachedViews () {
         return this.$store.state.routerView.cachedViews
       },
-      key() {
+      key () {
         return this.$route.path
       }
     }
@@ -21,5 +21,7 @@
 </script>
 
 <style lang="scss" scoped>
-
+  .app-main {
+    padding: 16px;
+  }
 </style>

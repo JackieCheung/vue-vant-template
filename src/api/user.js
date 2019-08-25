@@ -5,7 +5,7 @@ import { api } from '@/config'
 const { common_api } = api
 
 // 登录
-export function login(params) {
+export function login (params) {
   return request({
     url: common_api + '/ruleCommon/queryrule',
     method: 'post',

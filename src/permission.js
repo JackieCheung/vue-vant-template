@@ -9,9 +9,9 @@ const getPageTitle = (pageTitle) => {
   return pageTitle ? `${pageTitle} - ${defaultSettings.title || 'vue vant template'}` : `${defaultSettings.title || 'vue vant template'}`
 }
 
-const whiteLists = ['/login', '/register'] // free login whitelists
+const whiteLists = ['/', '/login', '/register'] // free login whitelists
 
-router.beforeEach(async(to, from, next) => {
+router.beforeEach(async (to, from, next) => {
   // start progress bar
   NProgress.start()
 

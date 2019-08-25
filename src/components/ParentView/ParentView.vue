@@ -8,10 +8,10 @@
   export default {
     name: 'ParentView',
     computed: {
-      cachedViews() {
+      cachedViews () {
         return this.$store.state.routerView.cachedViews
       },
-      key() {
+      key () {
         return this.$route.path
       }
     }

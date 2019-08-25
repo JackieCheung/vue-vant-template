@@ -1,7 +1,6 @@
 <!-- home -->
 <template>
-  <div>
-    <app-main />
+  <div class="home">
     <van-divider :style="{ color: '#1989fa', borderColor: '#1989fa', padding: '0 16px' }">
       Welcome to vue-vant-template.
     </van-divider>
@@ -9,22 +8,20 @@
 </template>
 
 <script>
-  import { AppMain } from './components'
   import { Divider } from 'vant'
 
   export default {
     components: {
-      'app-main': AppMain,
       [Divider.name]: Divider
     },
 
-    data() {
+    data () {
       return {}
     },
 
     computed: {},
 
-    mounted() {
+    mounted () {
       console.log(process.env)
     },
 

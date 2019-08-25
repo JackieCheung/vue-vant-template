@@ -5,7 +5,7 @@ const path = require('path')
 
 const mockDir = path.join(process.cwd(), 'mock')
 
-function registerRoutes(app) {
+function registerRoutes (app) {
   let mockLastIndex
   const { default: mocks } = require('./index.js')
   for (const mock of mocks) {
@@ -19,7 +19,7 @@ function registerRoutes(app) {
   }
 }
 
-function unregisterRoutes() {
+function unregisterRoutes () {
   Object.keys(require.cache).forEach(i => {
     if (i.includes(mockDir)) {
       delete require.cache[require.resolve(i)]
