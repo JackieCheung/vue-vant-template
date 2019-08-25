@@ -14,7 +14,7 @@ import FastClick from 'fastclick'
 if ('addEventListener' in document) {
   document.addEventListener(
     'DOMContentLoaded',
-    function() {
+    function () {
       FastClick.attach(document.body)
     },
     false
@@ -35,6 +35,19 @@ if ('addEventListener' in document) {
 //   const { mockXHR } = require('../mock')
 //   mockXHR()
 // }
+// use font-awesome icon
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { fas } from '@fortawesome/free-solid-svg-icons'
+import { far } from '@fortawesome/free-regular-svg-icons'
+import { fab } from '@fortawesome/free-brands-svg-icons'
+import { FontAwesomeIcon, FontAwesomeLayers, FontAwesomeLayersText }
+  from '@fortawesome/vue-fontawesome'
+
+library.add(fas, far, fab)
+
+Vue.component('font-awesome-icon', FontAwesomeIcon)
+Vue.component('font-awesome-layers', FontAwesomeLayers)
+Vue.component('font-awesome-layers-text', FontAwesomeLayersText)
 
 Vue.config.productionTip = false
 
