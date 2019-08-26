@@ -8,19 +8,6 @@ import router from './router'
 import '@/filters' // filters
 import '@/permission' // permission 权限
 
-// 解决移动端click事件300毫秒延迟方法
-import FastClick from 'fastclick'
-
-if ('addEventListener' in document) {
-  document.addEventListener(
-    'DOMContentLoaded',
-    function () {
-      FastClick.attach(document.body)
-    },
-    false
-  )
-}
-
 /**
  * If you don't want to use mock-server
  * you want to use MockJs for mock api
