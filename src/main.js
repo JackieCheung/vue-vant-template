@@ -38,6 +38,8 @@ Vue.component('font-awesome-layers-text', FontAwesomeLayersText)
 
 Vue.config.productionTip = false
 
+Vue.prototype.$eventHub = Vue.prototype.$eventHub || new Vue()
+
 new Vue({
   el: '#app',
   router,
