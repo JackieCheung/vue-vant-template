@@ -6,6 +6,7 @@
     v-bind="Object.assign({}, $attrs, error)"
     :value="value"
     :required="isRequired"
+	:error-message="validateMessage"
     v-on="Object.assign({}, $listeners, { change: handleChange, input: handleInput })"
     @clear="handleChange">
     {slots('button') && (
