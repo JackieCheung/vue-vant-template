@@ -7,8 +7,7 @@
     :value="value"
     :required="isRequired"
     :error-message="validateMessage"
-    v-on="Object.assign({}, $listeners, { change: handleChange, input: handleInput, blur: handleBlur })"
-    @clear="handleChange">
+    v-on="$listensers">
     {slots('button') && (
     <template
       slot="button"
@@ -75,6 +74,10 @@
           return null
         }
       },
+      error: {
+        type: String,
+        default: ''
+      },
       required: {
         type: Boolean,
         default: false
@@ -83,7 +86,6 @@
     data () {
       return {
         data: this.value,
-        error: {},
         isRequired: false,
         validateState: '',
         validateMessage: '',
@@ -102,11 +104,28 @@
         }
 
         return getPropByPath(model, path).v
+      },
+      $listensers () {
+        return Object.assign({}, this.$listeners, {
+          input: this.handleInput,
+          blur: this.onFieldBlur,
+          change: this.handleChange
+        })
       }
     },
     watch: {
       value (newVal) {
         this.data = newVal
+      },
+      error: {
+        handler (val) {
+          this.validateMessage = val
+          this.validateState = val ? 'error' : ''
+        },
+        immediate: true
+      },
+      validateStatus (val) {
+        this.validateState = val
       },
       rules () {
         this.setRules()
@@ -115,7 +134,6 @@
     inject: ['form'],
     mounted () {
       if (this.prop) {
-        // this.dispatch('VForm', 'on-form-item-add', this)
         this.$eventHub.$emit('on-form-item-add', this)
 
         Object.defineProperty(this, 'initialValue', {
@@ -127,22 +145,18 @@
     },
     beforeDestroy () {
       if (this.prop) {
-        // this.dispatchEvent('VForm', 'on-form-item-remove', this)
         this.$eventHub.$emit('on-form-item-remove', this)
       }
     },
     methods: {
       handleChange () {
-        this.$emit('update', this.data)
         this.$emit('change', this.data)
         this.onFieldChange()
       },
       handleInput () {
-        this.$emit('input', this.data)
+        // this.$emit('update', this.data)
+        this.$emit('change', this.data)
         this.onFieldChange()
-      },
-      handleBlur () {
-        this.onFieldBlur()
       },
       setRules () {
         const rules = this.getRules()
