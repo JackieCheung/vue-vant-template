@@ -6,8 +6,8 @@
     v-bind="Object.assign({}, $attrs, error)"
     :value="value"
     :required="isRequired"
-	:error-message="validateMessage"
-    v-on="Object.assign({}, $listeners, { change: handleChange, input: handleInput })"
+    :error-message="validateMessage"
+    v-on="Object.assign({}, $listeners, { change: handleChange, input: handleInput, blur: handleBlur })"
     @clear="handleChange">
     {slots('button') && (
     <template
@@ -135,9 +135,14 @@
       handleChange () {
         this.$emit('update', this.data)
         this.$emit('change', this.data)
+        this.onFieldChange()
       },
       handleInput () {
         this.$emit('input', this.data)
+        this.onFieldChange()
+      },
+      handleBlur () {
+        this.onFieldBlur()
       },
       setRules () {
         const rules = this.getRules()
@@ -150,10 +155,6 @@
         } else if (this.required) {
           this.isRequired = this.required
         }
-        this.$off('on-form-blur', this.onFieldBlur)
-        this.$off('on-form-change', this.onFieldChange)
-        this.$on('on-form-blur', this.onFieldBlur)
-        this.$on('on-form-change', this.onFieldChange)
       },
       getRules () {
         let formRules = this.form.rules
