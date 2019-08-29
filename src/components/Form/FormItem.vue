@@ -6,6 +6,7 @@
     v-bind="Object.assign({}, $attrs, error)"
     :value="value"
     :required="isRequired"
+    :error="errorHighLight && validateMessage !== ''"
     :error-message="validateMessage"
     v-on="$listensers">
     {slots('button') && (
@@ -79,6 +80,10 @@
         default: ''
       },
       required: {
+        type: Boolean,
+        default: false
+      },
+      errorHighLight: {
         type: Boolean,
         default: false
       }
@@ -184,14 +189,16 @@
         return rules.filter(rule => !rule.trigger || rule.trigger.indexOf(trigger) !== -1)
       },
       validate (trigger, callback = function () {}) {
-        let rules = this.getFilteredRule(trigger)
+        const rules = this.getFilteredRule(trigger)
         if (!rules || rules.length === 0) {
-          if (!this.required) {
-            callback()
-            return true
-          } else {
-            rules = [{ required: true }]
-          }
+          // if (!this.required) {
+          //   callback()
+          //   return true
+          // } else {
+          //   rules = [{ required: true }]
+          // }
+          callback()
+          return true
         }
 
         this.validateState = 'validating'

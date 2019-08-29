@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import config from '@/config'
 
 Vue.use(Router)
 export const constantRoutes = [
@@ -28,6 +29,7 @@ constantRoutes.forEach(route => {
 
 const createRouter = () => new Router({
   mode: 'history', // require service support
+  base: config.basePath, // 设置根路由
   scrollBehavior: () => ({ y: 0 }),
   routes: constantRoutes
 })
