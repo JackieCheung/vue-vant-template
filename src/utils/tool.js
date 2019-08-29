@@ -54,3 +54,39 @@ export const off = (function () {
     }
   }
 })()
+
+/**
+ * @description: DataURL 转 Blob 对象
+ * @params: { String } dataUrl
+ * @return: { Blob } Blob 对象
+ * @author: Jackie
+ * @date: 2019/8/27 19:33
+ */
+export const dataURLToBlob = dataUrl => {
+  const arr = dataUrl.split(',')
+  const mime = arr[0].match(/:(.*?);/)[1]
+  const bstr = atob(arr[1])
+  let n = bstr.length
+  const u8arr = new Uint8Array(n)
+  while (n--) {
+    u8arr[n] = bstr.charCodeAt(n)
+  }
+  return new Blob([u8arr], { type: mime })
+}
+
+/**
+ * @description: 图片对象转Base64
+ * @params: { Object } image 图片对象
+ * @return: { String } base64字符串
+ * @author: Jackie
+ * @date: 2019/8/27 21:10
+ */
+export const getBase64FromImage = image => {
+  const canvas = document.createElement('canvas')
+  canvas.width = image.width
+  canvas.height = image.height
+  const ctx = canvas.getContext('2d')
+  ctx.drawImage(image, 0, 0, image.width, image.height)
+  const ext = image.src.substring(image.src.lastIndexOf('.') + 1).toLowerCase()
+  return canvas.toDataURL('image/' + ext)
+}

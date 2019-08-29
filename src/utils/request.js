@@ -8,20 +8,19 @@ import { getToken } from '@/utils/auth'
 const HttpRequest = axios.create({
   baseURL: api.base_api, // url = base url + request url
   // withCredentials: true, // send cookies when cross-domain requests
-  timeout: 200000, // request timeout,
-  hideLoading: true // hide default loading
+  timeout: 200000 // request timeout
 })
 
 // request拦截器 request interceptor
 HttpRequest.interceptors.request.use(
   config => {
     // do something before request is sent
-
     // 不传递默认开启loading
     if (!config.hideLoading) {
       // loading
       Toast.loading({
-        forbidClick: true
+        forbidClick: true,
+        message: '加载中...'
       })
     }
     if (store.getters.token) {
@@ -44,17 +43,16 @@ HttpRequest.interceptors.request.use(
 HttpRequest.interceptors.response.use(
   response => {
     Toast.clear()
-    const res = response.data
-    if (res.status && res.status !== 200) {
+    if (response.status && response.status !== 200) {
       // 登录超时,重新登录
-      if (res.status === 401) {
+      if (response.status === 401) {
         store.dispatch('user/resetToken').then(() => {
           location.reload()
         })
       }
-      return Promise.reject(res || 'error')
+      return Promise.reject(response.data || 'error')
     } else {
-      return Promise.resolve(res)
+      return Promise.resolve(response.data)
     }
   },
   error => {
