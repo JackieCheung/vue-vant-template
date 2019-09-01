@@ -252,6 +252,22 @@
       // 向左边旋转90度
       rotateLeft () {
         return this.$refs.cropper.rotateLeft()
+      },
+      // 获取截图的 base64 数据
+      getCropBase64 (fn) {
+        // this.$refs.cropper.getCropData((data) => {
+        //   // do something
+        //   console.log(data)
+        // })
+        this.$refs.cropper.getCropData(fn)
+      },
+      // 获取截图的 blob 数据
+      getCropBlob (fn) {
+        // this.$refs.cropper.getCropBlob((data) => {
+        //   // do something
+        //   console.log(data)
+        // })
+        this.$refs.cropper.getCropBlob(fn)
       }
     }
   }
