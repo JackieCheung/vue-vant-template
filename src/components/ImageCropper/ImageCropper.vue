@@ -1,33 +1,80 @@
 <template>
   <div class="cropper-container">
-    <vue-cropper
-      ref="cropper"
-      :mode="mode"
-      :img="img"
-      :output-size="outputSize"
-      :output-type="outputType"
-      :info="info"
-      :info-true="infoTrue"
-      :can-scale="canScale"
-      :auto-crop="autoCrop"
-      :auto-crop-width="autoCropWidth"
-      :auto-crop-height="autoCropHeight"
-      :fixed="fixed"
-      :fixed-number="fixedNumber"
-      :fixed-box="fixedBox"
-      :full="full"
-      :can-move="canMove"
-      :can-move-box="canMoveBox"
-      :original="original"
-      :center-box="centerBox"
-      :high="high"
-      :max-img-size="maxImgSize"
-      :enlarge="enlarge"
-      @imgLoad="handleImgLoad"
-      @realTime="handleRealTime"
-      @imgMoving="handleImgMoving"
-      @cropMoving="handleCropMoving"></vue-cropper>
-    <!--todo 放大、缩小、左旋转、右旋转按钮-->
+    <div class="cropper">
+      <vue-cropper
+        ref="cropper"
+        :mode="mode"
+        :img="imgUrl"
+        :output-size="outputSize"
+        :output-type="outputType"
+        :info="info"
+        :info-true="infoTrue"
+        :can-scale="canScale"
+        :auto-crop="autoCrop"
+        :auto-crop-width="autoCropWidth"
+        :auto-crop-height="autoCropHeight"
+        :fixed="fixed"
+        :fixed-number="fixedNumber"
+        :fixed-box="fixedBox"
+        :full="full"
+        :can-move="canMove"
+        :can-move-box="canMoveBox"
+        :original="original"
+        :center-box="centerBox"
+        :high="high"
+        :max-img-size="maxImgSize"
+        :enlarge="enlarge"
+        @imgLoad="handleImgLoad"
+        @realTime="handleRealTime"
+        @imgMoving="handleImgMoving"
+        @cropMoving="handleCropMoving"></vue-cropper>
+    </div>
+    <!--放大、缩小、左旋转、右旋转、更换图片按钮-->
+    <div class="btn-controller">
+      <van-uploader
+        accept="image/jpeg"
+        :max-count="1"
+        :before-read="handleFileBeforeRead"
+        :after-read="handleFileAfterRead">
+        <van-button
+          type="warning"
+          :size="btnSize">
+          选择图片
+        </van-button>
+      </van-uploader>
+      <van-button
+        type="info"
+        class="ml-5"
+        :size="btnSize"
+        @click="changeScale(1)">
+        <font-awesome-icon icon="search-plus" />
+      </van-button>
+      <van-button
+        type="info"
+        :size="btnSize"
+        @click="changeScale(-1)">
+        <font-awesome-icon icon="search-minus" />
+      </van-button>
+      <van-button
+        type="info"
+        :size="btnSize"
+        @click="rotateLeft">
+        <font-awesome-icon icon="undo" />
+      </van-button>
+      <van-button
+        type="info"
+        :size="btnSize"
+        @click="rotateRight">
+        <font-awesome-icon icon="redo" />
+      </van-button>
+      <van-button
+        type="primary"
+        :size="btnSize"
+        @click="uploadImage">
+        <font-awesome-icon icon="upload" />
+        上传
+      </van-button>
+    </div>
   </div>
 </template>
 
@@ -38,11 +85,14 @@
    * @see https://shnhz.github.io/shn-ui/#/component/vue-cropper
    */
   import { VueCropper } from 'vue-cropper'
+  import { Button, Uploader } from 'vant'
 
   export default {
     name: 'ImageCropper',
     components: {
-      'vue-cropper': VueCropper
+      'vue-cropper': VueCropper,
+      [Button.name]: Button,
+      [Uploader.name]: Uploader
     },
     props: {
       /**
@@ -170,7 +220,6 @@
         type: Boolean,
         default: true
       },
-      // 可以压缩图片宽高 ，默认不超过 200
       // 限制图片最大宽度和高度，默认值：2000，可选值：0 - max
       maxImgSize: {
         type: Number,
@@ -184,7 +233,14 @@
       }
     },
     data () {
-      return {}
+      return {
+        btnSize: 'mini',
+        imgSrc: '', // 裁剪图片的地址，默认值：空，可选值：url 地址 || base64 || blob || file
+        previews: {
+          url: '', // 预览图片的 url 地址
+          img: '' // 预览图片的样式
+        }
+      }
     },
     computed: {
       // 截图框宽度
@@ -194,6 +250,19 @@
       // 截图框高度
       cropH () {
         return this.$refs.cropper.cropH
+      },
+      imgUrl () {
+        return this.imgSrc
+      }
+    },
+    watch: {
+      img: {
+        handler (newVal) {
+          if (newVal) {
+            this.imgSrc = newVal
+          }
+        },
+        immediate: true
       }
     },
     methods: {
@@ -212,7 +281,7 @@
         this.$emit('img-load', status === 'success')
         this.$emit('imgLoad', status === 'success')
       },
-      // 实时预览回调
+      // 实时预览函数回调
       handleRealTime (obj) {
         this.$emit('realTime', obj)
         this.$emit('real-time', obj)
@@ -230,8 +299,8 @@
         return this.$refs.cropper.clearCrop()
       },
       // 修改图片大小 正数为变大 负数变小
-      changeScale () {
-        return this.$refs.cropper.changeScale()
+      changeScale (num) {
+        return this.$refs.cropper.changeScale(num || 1)
       },
       // 获取图片基于容器的坐标点
       getImgAxis () {
@@ -268,11 +337,47 @@
         //   console.log(data)
         // })
         this.$refs.cropper.getCropBlob(fn)
+      },
+      // 文件读取前的回调函数，返回 false 可终止文件读取，支持返回 Promise
+      handleFileBeforeRead (file, detail) {
+        this.imgSrc = ''
+        return true
+      },
+      // 文件读取完成后的回调函数
+      handleFileAfterRead (file, detail) {
+        this.imgSrc = file.content
+      },
+      // 点击上传
+      uploadImage () {
+        this.$emit('uploadImage', this.getCropBlob)
+        this.$emit('upload-image', this.getCropBlob)
       }
     }
   }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+  .cropper-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
+    padding-top: 5px;
 
+    .cropper {
+      width: 100%;
+      height: 240px;
+    }
+
+    .btn-controller {
+      width: 100%;
+      margin-top: 16px;
+      text-align: center;
+
+      .van-button {
+        height: 25px;
+        line-height: 25px;
+      }
+    }
+  }
 </style>
