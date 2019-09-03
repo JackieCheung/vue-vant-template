@@ -32,7 +32,6 @@
     <!--放大、缩小、左旋转、右旋转、更换图片按钮-->
     <div class="btn-controller">
       <van-uploader
-        accept="image/jpeg"
         :max-count="1"
         :before-read="handleFileBeforeRead"
         :after-read="handleFileAfterRead">
@@ -300,7 +299,9 @@
       },
       // 修改图片大小 正数为变大 负数变小
       changeScale (num) {
-        return this.$refs.cropper.changeScale(num || 1)
+        if (this.imgUrl) {
+          return this.$refs.cropper.changeScale(num || 1)
+        }
       },
       // 获取图片基于容器的坐标点
       getImgAxis () {
@@ -316,11 +317,15 @@
       },
       // 向右边旋转90度
       rotateRight () {
-        return this.$refs.cropper.rotateRight()
+        if (this.imgUrl) {
+          return this.$refs.cropper.rotateRight()
+        }
       },
       // 向左边旋转90度
       rotateLeft () {
-        return this.$refs.cropper.rotateLeft()
+        if (this.imgUrl) {
+          return this.$refs.cropper.rotateLeft()
+        }
       },
       // 获取截图的 base64 数据
       getCropBase64 (fn) {
@@ -371,7 +376,7 @@
 
     .btn-controller {
       width: 100%;
-      margin-top: 16px;
+      margin-top: 24px;
       text-align: center;
 
       .van-button {
