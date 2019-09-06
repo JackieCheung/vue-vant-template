@@ -15,8 +15,8 @@ const HttpRequest = axios.create({
 HttpRequest.interceptors.request.use(
   config => {
     // do something before request is sent
-    // 不传递默认开启loading
-    if (!config.hideLoading) {
+    // 开启全局loading
+    if (config.showLoading) {
       // loading
       Toast.loading({
         forbidClick: true,
