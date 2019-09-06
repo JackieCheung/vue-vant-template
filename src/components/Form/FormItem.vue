@@ -9,6 +9,12 @@
     :error="errorHighLight && validateMessage !== ''"
     :error-message="validateMessage"
     v-on="$listensers">
+    {slots('left-icon') && (
+    <template
+      slot="left-icon">
+      <slot name="left-icon"></slot>
+    </template>
+    )}
     {slots('button') && (
     <template
       slot="button"
@@ -16,6 +22,12 @@
       <slot
         name="button"
         :data="data"></slot>
+    </template>
+    )}
+    {slots('right-icon') && (
+    <template
+      slot="right-icon">
+      <slot name="right-icon"></slot>
     </template>
     )}
   </van-field>
