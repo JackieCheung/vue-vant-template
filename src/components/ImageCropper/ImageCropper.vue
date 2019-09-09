@@ -229,6 +229,11 @@
       enlarge: {
         type: [Number, String],
         default: 1
+      },
+      // 图片上传前执行的方法
+      beforeImageRead: {
+        type: Function,
+        default: null
       }
     },
     data () {
@@ -346,7 +351,7 @@
       // 文件读取前的回调函数，返回 false 可终止文件读取，支持返回 Promise
       handleFileBeforeRead (file, detail) {
         this.imgSrc = ''
-        return true
+        return this.beforeImageRead ? this.beforeImageRead(file, detail) : true
       },
       // 文件读取完成后的回调函数
       handleFileAfterRead (file, detail) {
@@ -371,7 +376,7 @@
 
     .cropper {
       width: 100%;
-      height: 240px;
+      height: 225px;
     }
 
     .btn-controller {
