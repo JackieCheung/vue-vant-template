@@ -3,6 +3,6 @@
 
 >基于vue全家桶和vant的移动端开发脚手架  |  vue移动端快速集成开发的解决方案
 
-<br /><br /><br />
+<br /><br />
 　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　***—— Long Term Support By JackieCheung***
 
