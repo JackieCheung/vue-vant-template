@@ -1,8 +1,8 @@
 <template>
   <form :autocomplete="autocomplete">
-    <van-cell-group>
+    <template>
       <slot></slot>
-    </van-cell-group>
+    </template>
   </form>
 </template>
 
