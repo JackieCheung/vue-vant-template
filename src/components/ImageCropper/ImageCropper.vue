@@ -84,14 +84,11 @@
    * @see https://shnhz.github.io/shn-ui/#/component/vue-cropper
    */
   import { VueCropper } from 'vue-cropper'
-  import { Button, Uploader } from 'vant'
 
   export default {
     name: 'ImageCropper',
     components: {
-      'vue-cropper': VueCropper,
-      [Button.name]: Button,
-      [Uploader.name]: Uploader
+      'vue-cropper': VueCropper
     },
     props: {
       /**

@@ -34,7 +34,6 @@
 </template>
 
 <script>
-  import { Field, Button } from 'vant'
   import AsyncValidator from 'async-validator'
 
   function getPropByPath (obj, path) {
@@ -62,10 +61,6 @@
 
   export default {
     name: 'FormItem',
-    components: {
-      [Field.name]: Field,
-      [Button.name]: Button
-    },
     // detail @see https://cn.vuejs.org/v2/api/#model
     model: {
       prop: 'value',
@@ -178,7 +173,7 @@
       setRules () {
         const rules = this.getRules()
         if (rules.length && this.required) {
-          return
+          return ''
         } else if (rules.length) {
           rules.every((rule) => {
             this.isRequired = rule.required

@@ -40,18 +40,11 @@
 
 <script>
   import ImageCropper from '_c/ImageCropper'
-  import { Image, Row, Col, Icon, Cell, Loading } from 'vant'
 
   export default {
     name: 'ImageCropperDemo',
     components: {
-      'image-cropper': ImageCropper,
-      [Image.name]: Image,
-      [Row.name]: Row,
-      [Col.name]: Col,
-      [Icon.name]: Icon,
-      [Cell.name]: Cell,
-      [Loading.name]: Loading
+      'image-cropper': ImageCropper
     },
     data () {
       return {

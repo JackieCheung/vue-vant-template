@@ -8,13 +8,7 @@
 </template>
 
 <script>
-  import { Divider } from 'vant'
-
   export default {
-    components: {
-      [Divider.name]: Divider
-    },
-
     data () {
       return {}
     },

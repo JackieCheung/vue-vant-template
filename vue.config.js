@@ -23,7 +23,7 @@ const externals = {
   'vue-router': 'VueRouter',
   vuex: 'Vuex',
   vant: 'vant',
-  axios: 'axios'
+  axios: 'Axios'
 }
 // cdn
 const cdn = {
@@ -34,12 +34,14 @@ const cdn = {
   },
   // 生产环境
   build: {
-    css: ['https://cdn.jsdelivr.net/npm/vant@beta/lib/index.css'],
+    css: [
+      'https://cdn.jsdelivr.net/npm/vant@beta/lib/index.css'
+    ],
     js: [
       'https://cdnjs.cloudflare.com/ajax/libs/babel-polyfill/7.4.4/polyfill.js',
       'https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.min.js',
-      'https://cdnjs.cloudflare.com/ajax/libs/vue-router/3.0.6/vue-router.min.js',
-      'https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js',
+      'https://cdnjs.cloudflare.com/ajax/libs/vue-router/3.1.2/vue-router.min.js',
+      'https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js',
       'https://cdnjs.cloudflare.com/ajax/libs/vuex/3.1.1/vuex.min.js',
       'https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/crypto-js.min.js',
       'https://cdn.jsdelivr.net/npm/vant@beta/lib/vant.min.js'
