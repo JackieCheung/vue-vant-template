@@ -227,8 +227,13 @@
         type: [Number, String],
         default: 1
       },
-      // 图片上传前执行的方法
+      // 图片读取完成前回调
       beforeImageRead: {
+        type: Function,
+        default: null
+      },
+      // 图片读取完成后回调
+      afterImageRead: {
         type: Function,
         default: null
       }
@@ -345,7 +350,7 @@
         // })
         this.$refs.cropper.getCropBlob(fn)
       },
-      // 文件读取前的回调函数，返回 false 可终止文件读取，支持返回 Promise
+      // 文件读取完成前的回调函数，返回 false 可终止文件读取，支持返回 Promise
       handleFileBeforeRead (file, detail) {
         this.imgSrc = ''
         return this.beforeImageRead ? this.beforeImageRead(file, detail) : true

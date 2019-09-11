@@ -28,7 +28,8 @@ import {
   Checkbox
 } from 'vant'
 
-Vue.use(NavBar)
+Vue
+  .use(NavBar)
   .use(NoticeBar)
   .use(Row)
   .use(Col)
