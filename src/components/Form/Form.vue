@@ -7,13 +7,8 @@
 </template>
 
 <script>
-  import { CellGroup } from 'vant'
-
   export default {
     name: 'VForm',
-    components: {
-      [CellGroup.name]: CellGroup
-    },
     props: {
       model: {
         type: Object,
