@@ -15,6 +15,7 @@ import {
   NumberKeyboard,
   ActionSheet,
   Uploader,
+  ImagePreview,
   Icon,
   Loading,
   Popup,
@@ -41,6 +42,7 @@ Vue.use(NavBar)
   .use(NumberKeyboard)
   .use(ActionSheet)
   .use(Uploader)
+  .use(ImagePreview)
   .use(Icon)
   .use(Loading)
   .use(Popup)
@@ -51,3 +53,5 @@ Vue.use(NavBar)
   .use(Area)
   .use(Rate)
   .use(Checkbox)
+
+Vue.prototype.$imagePreview = ImagePreview
