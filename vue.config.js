@@ -23,7 +23,7 @@ const externals = {
   'vue-router': 'VueRouter',
   vuex: 'Vuex',
   vant: 'vant',
-  axios: 'Axios'
+  axios: 'axios'
 }
 // cdn
 const cdn = {
