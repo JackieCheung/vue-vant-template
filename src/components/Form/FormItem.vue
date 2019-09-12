@@ -23,7 +23,8 @@
     )}
     {slots('button') && (
     <template
-      #button="data">
+      #button
+      scope-slot="{data}">
       <slot
         name="button"
         :data="data"></slot>
