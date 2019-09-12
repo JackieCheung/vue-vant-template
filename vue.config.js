@@ -18,6 +18,8 @@ const name = defaultSettings.title || 'vue vant template' // page title
 // port = 9605 npm run dev OR npm run dev --port = 9605
 const port = process.env.port || process.env.npm_config_port || 9605 // dev port
 
+// key: package name
+// value: global variable name
 const externals = {
   vue: 'Vue',
   'vue-router': 'VueRouter',
