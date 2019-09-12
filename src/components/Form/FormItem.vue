@@ -15,6 +15,12 @@
       <slot name="left-icon"></slot>
     </template>
     )}
+    {slots('label') && (
+    <template
+      slot="label">
+      <slot name="label"></slot>
+    </template>
+    )}
     {slots('button') && (
     <template
       slot="button"
