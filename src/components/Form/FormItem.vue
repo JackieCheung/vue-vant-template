@@ -11,20 +11,19 @@
     v-on="$listensers">
     {slots('left-icon') && (
     <template
-      slot="left-icon">
+      #left-icon>
       <slot name="left-icon"></slot>
     </template>
     )}
     {slots('label') && (
     <template
-      slot="label">
+      #label>
       <slot name="label"></slot>
     </template>
     )}
     {slots('button') && (
     <template
-      slot="button"
-      scope-slot="{data}">
+      #button="data">
       <slot
         name="button"
         :data="data"></slot>
@@ -32,7 +31,7 @@
     )}
     {slots('right-icon') && (
     <template
-      slot="right-icon">
+      #right-icon>
       <slot name="right-icon"></slot>
     </template>
     )}
