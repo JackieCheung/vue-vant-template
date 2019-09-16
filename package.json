@@ -1,6 +1,6 @@
 {
   "name": "vue-vant-template",
-  "version": "0.0.2",
+  "version": "1.0.0",
   "description": "A vue mobile template with Vue-CLI, Vuex, Vue-Router, Vant, Axios, Scss, Mock, Eslint and Viewport adaptation scheme...",
   "author": "Jackie <JackieCheung517@gmail.com>",
   "license": "MIT",
@@ -33,6 +33,13 @@
     "vue-vant-template",
     "vue-mobile-template"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/JackieCheung/vue-vant-template.git"
+  },
+  "bugs": {
+    "url": "https://github.com/JackieCheung/vue-vant-template/issues"
+  },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.22",
     "@fortawesome/free-brands-svg-icons": "^5.10.2",
