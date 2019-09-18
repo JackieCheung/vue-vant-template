@@ -7,7 +7,7 @@
       <van-col
         span="10"
         style="text-align: center;">
-        <h4 style="text-align: left; margin-bottom: 5px;">预览：</h4>
+        <h4 style="text-align: left; margin-bottom: 5px;">图片预览：</h4>
         <van-image
           width="9rem"
           height="9rem"
@@ -25,7 +25,6 @@
           </template>
         </van-image>
       </van-col>
-      <van-col span="13">span: 6</van-col>
     </van-row>
     <image-cropper
       ref="imageCropper"

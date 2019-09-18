@@ -249,14 +249,6 @@
       }
     },
     computed: {
-      // 截图框宽度
-      cropW () {
-        return this.$refs.cropper.cropW
-      },
-      // 截图框高度
-      cropH () {
-        return this.$refs.cropper.cropH
-      },
       imgUrl () {
         return this.imgSrc
       }

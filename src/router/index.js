@@ -12,6 +12,15 @@ export const constantRoutes = [
       title: '主页',
       keepAlive: false
     }
+  },
+  {
+    path: '/testImageCropper',
+    component: () => import('_v/image-cropper-demo'),
+    name: 'ImageCropperDemo',
+    meta: {
+      title: '图片裁剪demo',
+      keepAlive: false
+    }
   }
   // when your routing map is too long, you can split it into small modules.
 ]
