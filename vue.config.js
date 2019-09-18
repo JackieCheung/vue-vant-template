@@ -9,6 +9,8 @@ function resolve (dir) {
 const autoprefixer = require('autoprefixer')
 const pxtoviewport = require('postcss-px-to-viewport')
 
+const LodashModuleReplacementPlugin = require('lodash-webpack-plugin')
+
 const name = defaultSettings.title || 'vue vant template' // page title
 
 // If your port is set to 80,
@@ -139,6 +141,8 @@ module.exports = {
       }
       return args
     })
+    config.plugin('lodashModuleReplacement')
+      .use(new LodashModuleReplacementPlugin())
 
     // set preserveWhitespace
     config.module

@@ -11,6 +11,7 @@ module.exports = {
         style: true
       },
       'vant'
-    ]
+    ],
+    'lodash'
   ]
 }
