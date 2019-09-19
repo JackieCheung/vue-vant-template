@@ -93,17 +93,15 @@ export const getBase64FromImage = image => {
 
 /**
  * @description: 将对象的指定字段置为任意值（ null 或 undefined ）
- * @params: { Object, Array, * } obj 源对象，keys 需要赋值的key，value 值
- * @return: { Object } 转换后的对象
+ * @params: { Object, Array, * } obj 源对象，keys 指定的字段，value 指定的值
+ * @return: { null }
  * @author: Jackie
  * @date: 2019/9/19 17:11
  */
 export const replaceObjProps = (obj, keys, value) => {
-  return JSON.parse(JSON.stringify(obj, (k, v) => {
-    if (keys.includes[k]) {
-      return value
-    } else {
-      return v
+  keys.map(key => {
+    if (obj.hasOwnProperty(key)) {
+      obj[key] = value
     }
-  }))
+  })
 }
