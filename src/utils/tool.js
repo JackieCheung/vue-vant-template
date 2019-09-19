@@ -1,5 +1,5 @@
 /**
- * @returns {String} 当前浏览器名称
+ * @returns { String } 当前浏览器名称
  */
 export const getExplorer = () => {
   const ua = window.navigator.userAgent
@@ -89,4 +89,21 @@ export const getBase64FromImage = image => {
   ctx.drawImage(image, 0, 0, image.width, image.height)
   const ext = image.src.substring(image.src.lastIndexOf('.') + 1).toLowerCase()
   return canvas.toDataURL('image/' + ext)
+}
+
+/**
+ * @description: 将对象的指定字段置为任意值（ null 或 undefined ）
+ * @params: { Object, Array, * } obj 源对象，keys 需要赋值的key，value 值
+ * @return: { Object } 转换后的对象
+ * @author: Jackie
+ * @date: 2019/9/19 17:11
+ */
+export const replaceObjProps = (obj, keys, value) => {
+  return JSON.parse(JSON.stringify(obj, (k, v) => {
+    if (keys.includes[k]) {
+      return value
+    } else {
+      return v
+    }
+  }))
 }
