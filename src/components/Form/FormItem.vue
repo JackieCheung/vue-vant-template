@@ -2,7 +2,7 @@
   <!--  detail for $attrs and $listeners -->
   <!--  @see https://www.jianshu.com/p/4649d317adfe-->
   <van-field
-    v-model="data"
+    v-model="val"
     v-bind="Object.assign({}, $attrs, error)"
     :value="value"
     :required="isRequired"
@@ -27,7 +27,7 @@
       scope-slot="{data}">
       <slot
         name="button"
-        :data="data"></slot>
+        :data="val"></slot>
     </template>
     )}
     {slots('right-icon') && (
@@ -103,7 +103,7 @@
     },
     data () {
       return {
-        data: this.value,
+        val: this.value,
         isRequired: false,
         validateState: '',
         validateMessage: '',
@@ -133,7 +133,11 @@
     },
     watch: {
       value (newVal) {
-        this.data = newVal
+        this.val = newVal
+      },
+      val (newVal) {
+        this.$emit('change', newVal)
+        this.onFieldChange()
       },
       error: {
         handler (val) {
@@ -150,6 +154,9 @@
       }
     },
     inject: ['form'],
+    created () {
+      this.isRequired = this.required
+    },
     mounted () {
       if (this.prop) {
         this.$eventHub.$emit('on-form-item-add', this)
@@ -168,13 +175,13 @@
     },
     methods: {
       handleChange () {
-        this.$emit('change', this.data)
-        this.onFieldChange()
+        this.$emit('change', this.val)
+        // this.onFieldChange()
       },
       handleInput () {
-        // this.$emit('update', this.data)
-        this.$emit('change', this.data)
-        this.onFieldChange()
+        // this.$emit('update', this.val)
+        this.$emit('change', this.val)
+        // this.onFieldChange()
       },
       setRules () {
         const rules = this.getRules()
