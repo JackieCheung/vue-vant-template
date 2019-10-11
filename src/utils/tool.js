@@ -105,3 +105,47 @@ export const replaceObjProps = (obj, keys, value) => {
     }
   })
 }
+
+/**
+ * @description: 判断当前设备类型是否为Android
+ * @params: { NULL }
+ * @return: { Boolean } true or false
+ * @author: Jackie
+ * @date: 2019/10/11 13:39
+ */
+export const isAndroidDevice = _ => {
+  return window.navigator.userAgent.indexOf('Android') > -1 || window.navigator.userAgent.indexOf('Adr') > -1
+}
+
+/**
+ * @description: 判断当前设备类型是否为IOS
+ * @params: { NULL }
+ * @return: { Boolean } true or false
+ * @author: Jackie
+ * @date: 2019/10/11 13:43
+ */
+export const isIosDevice = _ => {
+  return !!window.navigator.userAgent.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/)
+}
+
+/**
+ * @description: 判断当前客户端的浏览器环境是否为微信浏览器
+ * @params: { NULL }
+ * @return: { Boolean } true or false
+ * @author: Jackie
+ * @date: 2019/10/11 13:46
+ */
+export const isWechatBrowser = _ => {
+  return window.navigator.userAgent.toLowerCase().includes('micromessenger')
+}
+
+/**
+ * @description: 判断当前客户端的浏览器环境是否为支付宝浏览器
+ * @params: { NULL }
+ * @return: { Boolean } true or false
+ * @author: Jackie
+ * @date: 2019/10/11 13:49
+ */
+export const isAlipayBrowser = _ => {
+  return window.navigator.userAgent.toLowerCase().includes('alipayclient')
+}
