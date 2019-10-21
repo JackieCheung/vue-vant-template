@@ -5,9 +5,13 @@ import '@/assets/css/index.scss' // global css
 import App from './App'
 import store from './store'
 import router from './router'
-import '@/filters' // filters
+import '@/filters' // 全局 filters
 import '@/permission' // permission 权限
 import '@/vendor' // 统一 import 依赖
+
+import authImage from '@/directives/auth-image'
+
+Vue.use(authImage)
 
 /**
  * If you don't want to use mock-server
