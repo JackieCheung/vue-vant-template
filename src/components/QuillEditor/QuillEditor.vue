@@ -1,15 +1,13 @@
 <template>
-  <div class="v-quill-editor">
-    <quill-editor
-      ref="quillEditor"
-      v-model="quillEditor.content"
-      :options="quillEditor.opts"
-      @blur="onEditorBlur($event)"
-      @focus="onEditorFocus($event)"
-      @ready="onEditorReady($event)"
-      @change="onEditorChange($event)">
-    </quill-editor>
-  </div>
+  <quill-editor
+    ref="quillEditor"
+    v-model="quillEditor.content"
+    :options="quillEditor.opts"
+    @blur="onEditorBlur($event)"
+    @focus="onEditorFocus($event)"
+    @ready="onEditorReady($event)"
+    @change="onEditorChange($event)">
+  </quill-editor>
 </template>
 
 <script>
@@ -92,7 +90,7 @@
 </script>
 
 <style lang="scss" scoped>
-  .v-quill-editor {
+  .quill-editor {
     /deep/ .ql-container {
       height: 100px;
     }
