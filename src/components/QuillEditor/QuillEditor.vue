@@ -38,7 +38,7 @@
         quillEditor: {
           content: '', // 富文本编辑器内容
           opts: {
-            height: 100,
+            height: 100, // 富文本编辑器高度
             theme: 'snow', // 富文本编辑器主题，默认snow
             placeholder: '请输入内容....' // 富文本编辑器placeholder
           }
@@ -59,7 +59,7 @@
       }
     },
     mounted () {
-      // 设置编辑器高度
+      // 设置富文本编辑器高度
       this.editor.container.style.height = `${this.quillEditor.opts.height}px`
       // hack to fixed editor failed to focus at the first time
       this.editor.blur()

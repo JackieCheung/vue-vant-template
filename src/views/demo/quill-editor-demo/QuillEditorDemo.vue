@@ -16,11 +16,11 @@
     },
     data () {
       return {
-        content: 'test'
+        content: ''
       }
     },
     methods: {
-      handleEditorChange ({ editor, html, text }) {
+      handleEditorChange ({ quill, html, text }) {
         this.content = html
       }
     }
