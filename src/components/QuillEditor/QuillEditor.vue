@@ -1,13 +1,15 @@
 <template>
-  <quill-editor
-    ref="quillEditor"
-    v-model="quillEditor.content"
-    :options="quillEditor.opts"
-    @blur="onEditorBlur($event)"
-    @focus="onEditorFocus($event)"
-    @ready="onEditorReady($event)"
-    @change="onEditorChange($event)">
-  </quill-editor>
+  <div class="v-quill-editor">
+    <quill-editor
+      ref="quillEditor"
+      v-model="quillEditor.content"
+      :options="quillEditor.opts"
+      @blur="onEditorBlur($event)"
+      @focus="onEditorFocus($event)"
+      @ready="onEditorReady($event)"
+      @change="onEditorChange($event)">
+    </quill-editor>
+  </div>
 </template>
 
 <script>
@@ -38,7 +40,7 @@
         quillEditor: {
           content: '', // 富文本编辑器内容
           opts: {
-            height: 100, // 富文本编辑器高度
+            // height: 100, // 富文本编辑器高度
             theme: 'snow', // 富文本编辑器主题，默认snow
             placeholder: '请输入内容....' // 富文本编辑器placeholder
           }
@@ -59,8 +61,8 @@
       }
     },
     mounted () {
-      // 设置富文本编辑器高度
-      this.editor.container.style.height = `${this.quillEditor.opts.height}px`
+      // // 设置富文本编辑器高度，注：这种设置方式的高度无法响应式，建议直接设置元素div.ql-container的css样式
+      // this.editor.container.style.height = `${this.quillEditor.opts.height}px`
       // hack to fixed editor failed to focus at the first time
       this.editor.blur()
     },
@@ -90,4 +92,9 @@
 </script>
 
 <style lang="scss" scoped>
+  .v-quill-editor {
+    /deep/ .ql-container {
+      height: 100px;
+    }
+  }
 </style>

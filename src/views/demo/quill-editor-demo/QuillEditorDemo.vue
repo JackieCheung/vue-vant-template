@@ -1,5 +1,8 @@
 <template>
-  <div>
+  <div style="padding: 16px;">
+    <van-divider>
+      <h3>vue-quill-editor示例</h3>
+    </van-divider>
     <QuillEditor
       v-model="content"
       @change="handleEditorChange"></QuillEditor>
