@@ -3,6 +3,10 @@ import Router from 'vue-router'
 import config from '@/config'
 
 Vue.use(Router)
+
+/* Router Modules */
+import demoRouter from './modules/demo'
+
 export const constantRoutes = [
   {
     path: '/',
@@ -13,16 +17,8 @@ export const constantRoutes = [
       keepAlive: false
     }
   },
-  {
-    path: '/testImageCropper',
-    component: () => import('_v/image-cropper-demo'),
-    name: 'ImageCropperDemo',
-    meta: {
-      title: '图片裁剪demo',
-      keepAlive: false
-    }
-  }
   // when your routing map is too long, you can split it into small modules.
+  demoRouter
 ]
 
 /**
