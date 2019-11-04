@@ -22,6 +22,8 @@ const port = process.env.port || process.env.npm_config_port || 9605 // dev port
 
 // key: package name
 // value: global variable name
+// key是import的包名，value是CDN提供的全局变量名
+// 所以最后webpack会把一个静态资源编译成：module.export[key] = window[value]
 const externals = {
   vue: 'Vue',
   'vue-router': 'VueRouter',
