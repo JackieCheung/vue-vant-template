@@ -1,3 +1,12 @@
+// common styles
+.text-success {
+  color: #19be6b !important;
+}
+
+.text-danger {
+  color: #ed4014 !important;
+}
+
 .text-center {
   text-align: center !important;
 }
@@ -8,22 +17,6 @@
 
 .text-right {
   text-align: right !important;
-}
-
-.text-danger {
-  color: #ed4014 !important;
-}
-
-.text-success {
-  color: #28a745 !important;
-}
-
-.text-info {
-  color: #0000ff !important;
-}
-
-.text-warning {
-  color: #ffd700 !important;
 }
 
 .position-relative {
@@ -38,12 +31,16 @@
   display: none !important;
 }
 
-.d-inline-block {
-  display: inline-block !important;
-}
-
 .d-inline {
   display: inline !important;
+}
+
+.d-block {
+  display: block !important;
+}
+
+.d-inline-block {
+  display: inline-block !important;
 }
 
 .d-row-flex {
@@ -62,15 +59,15 @@
   justify-content: center;
 }
 
-.justify-content-sa {
+.justify-content-space-around {
   justify-content: space-around;
 }
 
-.justify-content-sb {
+.justify-content-space-between {
   justify-content: space-between;
 }
 
-.f-wrap-w {
+.flex-wrap {
   flex-wrap: wrap;
 }
 
@@ -87,19 +84,23 @@
   margin-left: 0 !important;
 }
 
-.ml-5 {
+.ml-5,
+.mx-5 {
   margin-left: 5px !important;
 }
 
-.ml-10 {
+.ml-10,
+.mx-10 {
   margin-left: 10px !important;
 }
 
-.ml-15 {
+.ml-15,
+.mx-15 {
   margin-left: 15px !important;
 }
 
-.ml-20 {
+.ml-20,
+.mx-20 {
   margin-left: 20px !important;
 }
 
@@ -108,19 +109,23 @@
   margin-right: 0 !important;
 }
 
-.mr-5 {
+.mr-5,
+.mx-5 {
   margin-right: 5px !important;
 }
 
-.mr-10 {
+.mr-10,
+.mx-10 {
   margin-right: 10px !important;
 }
 
-.mr-15 {
+.mr-15,
+.mx-15 {
   margin-right: 15px !important;
 }
 
-.mr-20 {
+.mr-20,
+.mx-20 {
   margin-right: 20px !important;
 }
 
@@ -129,24 +134,24 @@
   margin-top: 0 !important;
 }
 
-.mt-5 {
+.mt-5,
+.my-5 {
   margin-top: 5px !important;
 }
 
-.mt-10 {
+.mt-10,
+.my-10 {
   margin-top: 10px !important;
 }
 
-.mt-15 {
+.mt-15,
+.my-15 {
   margin-top: 15px !important;
 }
 
-.mt-20 {
+.mt-20,
+.my-20 {
   margin-top: 20px !important;
-}
-
-.mt-30 {
-  margin-top: 30px !important;
 }
 
 .mb-0,
@@ -154,28 +159,24 @@
   margin-bottom: 0 !important;
 }
 
-.mb-5 {
+.mb-5,
+.my-5 {
   margin-bottom: 5px !important;
 }
 
-.mb-10 {
+.mb-10,
+.my-10 {
   margin-bottom: 10px !important;
 }
 
-.mb-15 {
+.mb-15,
+.my-15 {
   margin-bottom: 15px !important;
 }
 
-.mb-20 {
+.mb-20,
+.my-20 {
   margin-bottom: 20px !important;
-}
-
-.mb-25 {
-  margin-bottom: 25px !important;
-}
-
-.mb-30 {
-  margin-bottom: 30px !important;
 }
 
 .pt-0,
@@ -183,9 +184,49 @@
   padding-top: 0 !important;
 }
 
+.pt-5,
+.py-5 {
+  padding-top: 5px !important;
+}
+
+.pt-10,
+.py-10 {
+  padding-top: 10px !important;
+}
+
+.pt-15,
+.py-15 {
+  padding-top: 15px !important;
+}
+
+.pt-20,
+.py-20 {
+  padding-top: 20px !important;
+}
+
 .pb-0,
 .py-0 {
   padding-bottom: 0 !important;
+}
+
+.pb-5,
+.py-5 {
+  padding-bottom: 0 !important;
+}
+
+.pb-10,
+.py-10 {
+  padding-bottom: 10px !important;
+}
+
+.pb-15,
+.py-15 {
+  padding-bottom: 15px !important;
+}
+
+.pb-20,
+.py-20 {
+  padding-bottom: 20px !important;
 }
 
 .pr-0,
@@ -193,48 +234,48 @@
   padding-right: 0 !important;
 }
 
+.pr-5,
+.px-5 {
+  padding-right: 5px !important;
+}
+
+.pr-10,
+.px-10 {
+  padding-right: 10px !important;
+}
+
+.pr-15,
+.px-15 {
+  padding-right: 15px !important;
+}
+
+.pr-20,
+.px-20 {
+  padding-right: 20px !important;
+}
+
 .pl-0,
 .px-0 {
   padding-left: 0 !important;
 }
 
-.pr-10 {
-  padding-right: 10px !important;
-}
-
-.pr-15 {
-  padding-right: 15px !important;
-}
-
-.pt-5 {
-  padding-top: 5px !important;
-}
-
-.pr-20 {
-  padding-right: 20px !important;
-}
-
-.pb-0 {
-  padding-bottom: 0 !important;
-}
-
-.pb-10 {
-  padding-bottom: 10px !important;
-}
-
-.pl-5 {
+.pl-5,
+.px-5 {
   padding-left: 5px !important;
 }
 
-.pl-10 {
+.pl-10,
+.px-10 {
   padding-left: 10px !important;
 }
 
-.pl-15 {
+.pl-15,
+.px-15 {
   padding-left: 15px !important;
 }
 
-.pl-20 {
+.pl-20,
+.px-20 {
   padding-left: 20px !important;
 }
 
@@ -242,23 +283,47 @@
   width: 100% !important;
 }
 
-.line-field {
-  margin-bottom: 10px;
-  padding: 15px;
-  border: none;
-  border-top: 1px solid #bbb;
-
-  legend {
-    margin-left: 20px;
-    padding: 0 10px;
-    font-size: 20px;
-    font-weight: 300;
+.clearfix {
+  &:after {
+    visibility: hidden;
+    display: block;
+    font-size: 0;
+    content: " ";
+    clear: both;
+    height: 0;
   }
 }
 
+.horizontal-center {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.vertical-center {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.cursor-not-allowed {
+  cursor: not-allowed !important;
+}
+
+.vertical-align-middle {
+  vertical-align: middle !important;
+}
+
 /**
- * keyframes 动画规则
- * @param：动画名，动画内容
+ * @description: keyframes, animation rules
+ * @params: animation-name、animation-content({keyframes-selector {css-styles;}})
  */
 @mixin keyframes($name) {
   @-webkit-keyframes #{$name} {
@@ -283,8 +348,8 @@
 }
 
 /**
- * animation，所有动画属性的简写属性，除了 animation-play-state 属性
- * @param：调用的动画名，动画持续时间，动画速度曲线，动画延迟时间（多久后开始执行动画），动画播放次数，动画是否在下一周期逆向地播放，对象动画时间之外的状态（对象在动画结束后的位置）
+ * @description: animation, a shorthand property for all animation properties, except animation-play-state property
+ * @params: animation-name、animation-duration、animation-timing-function、animation-delay、animation-iteration-count、animation-direction、animation-play-state
  */
 @mixin animation($arguments) {
   -webkit-animation: $arguments;
@@ -295,8 +360,8 @@
 }
 
 /**
- * transition，所有过渡属性的简写属性
- * @param：CSS属性名，持续时间，动画速度曲线，速度曲线，延迟时间
+ * @description: transition, a shorthand property for all transition properties
+ * @params: transition-property、transition-duration、transition-timing-function、transition-delay
  */
 @mixin transition($arguments) {
   -webkit-transition: $arguments;
@@ -307,8 +372,8 @@
 }
 
 /**
- * transform，2D 或 3D 转换
- * @param：none | transform-functions
+ * @description: transform, 2D or 3D transform
+ * @params: none | transform-functions
  */
 @mixin transform($arguments) {
   -webkit-transform: $arguments;

@@ -3,18 +3,23 @@ const state = {
   cachedViews: []
 }
 
+const getters = {
+  visitedViews: state => state.visitedViews,
+  cachedViews: state => state.cachedViews
+}
+
 const mutations = {
   ADD_VISITED_VIEW: (state, view) => {
     if (state.visitedViews.some(v => v.path === view.path)) return
     state.visitedViews.push(
       Object.assign({}, view, {
-        title: view.meta && view.meta.title || 'no-name'
+        title: view.meta.title || 'no-name'
       })
     )
   },
   ADD_CACHED_VIEW: (state, view) => {
     if (state.cachedViews.includes(view.name)) return
-    if (view.meta && view.meta.keepAlive) {
+    if (!view.meta.noCache) {
       state.cachedViews.push(view.name)
     }
   },
@@ -28,13 +33,8 @@ const mutations = {
     }
   },
   DEL_CACHED_VIEW: (state, view) => {
-    for (const i of state.cachedViews) {
-      if (i === view.name) {
-        const index = state.cachedViews.indexOf(i)
-        state.cachedViews.splice(index, 1)
-        break
-      }
-    }
+    const index = state.cachedViews.indexOf(view.name)
+    index > -1 && state.cachedViews.splice(index, 1)
   },
 
   DEL_OTHERS_VISITED_VIEWS: (state, view) => {
@@ -43,18 +43,18 @@ const mutations = {
     })
   },
   DEL_OTHERS_CACHED_VIEWS: (state, view) => {
-    for (const i of state.cachedViews) {
-      if (i === view.name) {
-        const index = state.cachedViews.indexOf(i)
-        state.cachedViews = state.cachedViews.slice(index, index + 1)
-        break
-      }
+    const index = state.cachedViews.indexOf(view.name)
+    if (index > -1) {
+      state.cachedViews = state.cachedViews.slice(index, index + 1)
+    } else {
+      // if index = -1, there is no cached tags
+      state.cachedViews = []
     }
   },
 
   DEL_ALL_VISITED_VIEWS: state => {
     // keep affix tags
-    state.visitedViews = state.visitedViews.filter(tag => tag.meta.affix)
+    state.visitedViews = state.visitedViews.filter(view => view.meta.affix)
   },
   DEL_ALL_CACHED_VIEWS: state => {
     state.cachedViews = []
@@ -159,6 +159,7 @@ const actions = {
 export default {
   namespaced: true,
   state,
+  getters,
   mutations,
   actions
 }

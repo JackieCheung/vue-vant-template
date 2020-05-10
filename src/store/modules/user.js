@@ -1,27 +1,34 @@
-import { login, logout, getInfo } from '@/api/user'
-import { getToken, setToken, removeToken } from '@/utils/auth'
+import { login, logout, getUserInfo } from '@/api/user'
+import { getToken, setToken, removeToken } from '@/utils/token'
 import router, { resetRouter } from '@/router'
 
 const state = {
   token: getToken(),
-  name: '',
-  roles: []
+  roles: [],
+  userInfo: {}
+}
+
+const getters = {
+  token: state => state.token,
+  roles: state => state.roles,
+  userInfo: state => state.userInfo
 }
 
 const mutations = {
   SET_TOKEN: (state, token) => {
     state.token = token
   },
-  SET_NAME: (state, name) => {
-    state.name = name
-  },
   SET_ROLES: (state, roles) => {
     state.roles = roles
+  },
+  SET_USER_INFO: (state, userInfo) => {
+    state.userInfo = userInfo
   }
 }
 
 const actions = {
   // user login
+  // userInfo: 登录信息
   login ({ commit }, userInfo) {
     const { username, password } = userInfo
     return new Promise((resolve, reject) => {
@@ -29,10 +36,12 @@ const actions = {
         username: username.trim(),
         password: password
       }).then(response => {
-        const { data } = response
-        commit('SET_TOKEN', data.token)
-        setToken(data.token)
-        resolve()
+        if (response.code === 0) {
+          const { token } = response.data
+          commit('SET_TOKEN', token)
+          setToken(token)
+        }
+        resolve(response)
       }).catch(error => {
         reject(error)
       })
@@ -40,25 +49,25 @@ const actions = {
   },
 
   // get user info
-  getInfo ({ commit, state }) {
+  getUserInfo ({ commit, state }) {
     return new Promise((resolve, reject) => {
-      getInfo(state.token).then(response => {
-        const { data } = response
+      getUserInfo().then(res => {
+        const { code, data, msg } = res
+        if (code !== 0 || !data) {
+          reject(new Error(msg ? msg + '，请重新登录！' : '验证失败，请重新登录！'))
+        } else {
+          const { roles } = data
 
-        if (!data) {
-          reject('Verification failed, please Login again.')
+          // roles must be a non-empty array
+          if (!roles || roles.length <= 0) {
+            reject(new Error('getUserInfo: roles must be a non-null array!'))
+          }
+
+          commit('SET_ROLES', roles)
+          commit('SET_USER_INFO', data)
+
+          resolve(data)
         }
-
-        const { roles, name } = data
-
-        // roles must be a non-empty array
-        if (!roles || roles.length <= 0) {
-          reject('getInfo: roles must be a non-null array!')
-        }
-
-        commit('SET_ROLES', roles)
-        commit('SET_NAME', name)
-        resolve(data)
       }).catch(error => {
         reject(error)
       })
@@ -66,13 +75,18 @@ const actions = {
   },
 
   // user logout
-  logout ({ commit, state }) {
+  logout ({ commit, state, dispatch }) {
     return new Promise((resolve, reject) => {
-      logout(state.token).then(() => {
+      logout().then(() => {
         commit('SET_TOKEN', '')
         commit('SET_ROLES', [])
+
         removeToken()
         resetRouter()
+
+        // reset visited views and cached views
+        dispatch('routerView/delAllViews', null, { root: true })
+
         resolve()
       }).catch(error => {
         reject(error)
@@ -92,13 +106,14 @@ const actions = {
 
   // dynamically modify permissions
   changeRoles ({ commit, dispatch }, role) {
+    // eslint-disable-next-line no-async-promise-executor
     return new Promise(async resolve => {
       const token = role + '-token'
 
       commit('SET_TOKEN', token)
       setToken(token)
 
-      const { roles } = await dispatch('getInfo')
+      const { roles } = await dispatch('getUserInfo')
 
       resetRouter()
 
@@ -119,6 +134,7 @@ const actions = {
 export default {
   namespaced: true,
   state,
+  getters,
   mutations,
   actions
 }

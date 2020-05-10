@@ -1,11 +1,17 @@
 import Vue from 'vue'
-import Router from 'vue-router'
-import config from '@/config'
+import VueRouter from 'vue-router'
 
-Vue.use(Router)
+// detail: https://github.com/vuejs/vue-router/issues/2881#issuecomment-520554378
+// const originalPush = VueRouter.prototype.push
+// VueRouter.prototype.push = function push (location, onResolve, onReject) {
+//   if (onResolve || onReject) return originalPush.call(this, location, onResolve, onReject)
+//   return originalPush.call(this, location).catch(err => err)
+// }
 
-/* Router Modules */
-import demoRouter from './modules/demo'
+Vue.use(VueRouter)
+
+/* Route Modules */
+import demoRoute from './modules/demo'
 
 export const constantRoutes = [
   {
@@ -18,7 +24,7 @@ export const constantRoutes = [
     }
   },
   // when your routing map is too long, you can split it into small modules.
-  demoRouter
+  demoRoute
 ]
 
 /**
@@ -32,10 +38,10 @@ constantRoutes.forEach(route => {
   route.path = route.path || '/' + (route.name || '')
 })
 
-const createRouter = () => new Router({
+const createRouter = () => new VueRouter({
   mode: 'history', // require service support
-  base: config.basePath, // 设置根路由
   scrollBehavior: () => ({ y: 0 }),
+  base: process.env.VUE_APP_ROUTER_BASE_PATH,
   routes: constantRoutes
 })
 

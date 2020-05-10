@@ -1,50 +1,53 @@
 import axios from 'axios'
 import store from '@/store'
-import { Toast } from 'vant'
-import { api } from '@/config'
-import { getToken } from '@/utils/auth'
+// import { getToken } from '@/utils/token'
 
 // create an axios instance
 const HttpRequest = axios.create({
-  baseURL: api.base_api, // url = base url + request url
+  headers: {
+    'Content-Type': 'application/json'
+  },
+  baseURL: process.env.VUE_APP_BASE_API, // url = base url + request url
   // withCredentials: true, // send cookies when cross-domain requests
-  timeout: 200000 // request timeout
+  timeout: 20000 // request timeout
 })
 
-// request拦截器 request interceptor
+// request interceptor
 HttpRequest.interceptors.request.use(
   config => {
     // do something before request is sent
-    // 开启全局loading
-    if (config.showLoading) {
-      // loading
-      Toast.loading({
-        forbidClick: true,
-        message: '加载中...'
-      })
-    }
-    if (store.getters.token) {
+
+    if (store.getters['user/token']) {
       // let each request carry token
       // ['X-Token'] is a custom headers key
-      // please modify it according to the actual situation
-      // config.headers['Authorization'] = 'Bearer ' + getToken()
-      config.headers['X-Token'] = getToken()
+      // please modify it according to the actual situation, such as `config.headers['Authorization'] = 'Bearer ' + getToken()`
+      // config.headers['authentication'] = getToken()
+      config.headers['authentication'] = store.getters['user/token']
     }
     return config
   },
   error => {
     // do something with request error
-    console.log(error) // for debug
+    console.error(error) // for debug
     return Promise.reject(error)
   }
 )
 
-// respone拦截器 response interceptor
+// response interceptor
 HttpRequest.interceptors.response.use(
+  /*
+   * If you want to get http information such as headers or status
+   * Please return  response => response
+   */
   response => {
-    Toast.clear()
+    /*
+     * Determine the request status by HTTP Status Code
+     * Here is just an example
+     * You can also judge the status by custom code
+   */
+    // if the http status code is not 200, it is judged as an error
     if (response.status && response.status !== 200) {
-      // 登录超时,重新登录
+      // try to re-login or other actions according to business requirements
       if (response.status === 401) {
         store.dispatch('user/resetToken').then(() => {
           location.reload()
@@ -56,8 +59,7 @@ HttpRequest.interceptors.response.use(
     }
   },
   error => {
-    Toast.clear()
-    console.log('err' + error) // for debug
+    console.error('err' + error) // for debug
     return Promise.reject(error)
   }
 )

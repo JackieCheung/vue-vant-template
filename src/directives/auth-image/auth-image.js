@@ -1,28 +1,60 @@
 import request from '@/utils/request'
 
+// import { validImage } from '@/utils/validate'
+
 const setImgSrc = (el, binding) => {
   if (!binding.value) {
-    // todo 绑定的值为空时显示提示信息
-    el.localName === 'img' ? el.src = '' : el.innerHTML = `<span>暂无内容</span>`
+    // el.localName === 'img' ? el.src = '' : el.innerHTML = `<span>暂无内容</span>`
+    el.localName === 'img' ? el.src = '' : ''
     return false
   }
-  if (typeof binding.oldValue === 'undefined' || binding.value !== binding.oldValue) {
-    // todo 显示加载中loading提示
-    el.localName !== 'img' ? el.innerHTML = `<span>加载中...</span>` : ''
+  let url = ''
+  let fn = null // 图片加载后的回调函数，返回当前图片的远程地址
+  // let remove = false // 是否移除当前元素
+  if (Object.prototype.toString.call(binding.value) === '[object Object]') {
+    url = binding.value.url || ''
+    fn = binding.value.fn || null
+    // remove = binding.value.remove || false
+  } else {
+    url = binding.value || ''
+    fn = null
+    // remove = false
+  }
+  if (typeof binding.oldValue === 'undefined' || JSON.stringify(binding.value) !== JSON.stringify(binding.oldValue)) {
+    // el.localName !== 'img' ? el.innerHTML = `<span>加载中...</span>` : ''
     request({
-      url: binding.value,
-      method: 'GET',
-      responseType: 'blob'
-    }).then(res => {
-      const reader = new FileReader()
-      reader.onload = e => {
-        el.localName === 'img' ? el.src = e.target.result : el.innerHTML = `<img src="${e.target.result}" alt="" />`
+      url: url,
+      method: 'GET'
+    }).then(response => {
+      if (response.data.signatureUrl) {
+        // validImage(response.data.signatureUrl).then(res => {
+        //   const src = res ? response.data.signatureUrl : ''
+        //   el.localName === 'img' ? el.src = src : ''
+        //   fn && fn(src)
+        //   !res && remove ? el.parentNode.removeChild(el) : ''
+        // })
+        const src = response.data.signatureUrl || ''
+        el.localName === 'img' ? el.src = src : ''
+        fn && fn(src)
+      } else {
+        el.localName === 'img' ? el.src = '' : ''
+        fn && fn('')
+        // remove ? el.parentNode.removeChild(el) : ''
       }
-      reader.readAsDataURL(res)
+      // el.localName === 'img' ? el.src = res.data.signatureUrl : el.innerHTML = `<img src="${res.data.signatureUrl}" alt="" />`
+      // el.localName === 'img' ? el.src = res.data.signatureUrl : ''
+      // fn && fn(res.data.signatureUrl || '')
+      // const reader = new FileReader()
+      // reader.onload = e => {
+      //   el.localName === 'img' ? el.src = e.target.result : el.innerHTML = `<img src="${e.target.result}" alt="" />`
+      // }
+      // reader.readAsDataURL(res)
     }).catch(error => {
-      console.log(error)
-      // todo 显示加载失败提示信息
-      el.localName === 'img' ? el.src = '' : el.innerHTML = `<span>加载失败</span>`
+      console.error(error)
+      // el.localName === 'img' ? el.src = '' : el.innerHTML = `<span>加载失败</span>`
+      el.localName === 'img' ? el.src = '' : ''
+      fn && fn('')
+      // remove ? el.parentNode.removeChild(el) : ''
     })
   }
 }

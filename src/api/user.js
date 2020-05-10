@@ -1,14 +1,42 @@
-import qs from 'qs'
 import request from '@/utils/request'
-import { api } from '@/config'
-// api
-const { common_api } = api
 
-// 登录
-export function login (params) {
+/**
+ * @description 用户登录
+ * @param { Object } data 用户登录信息
+ * @returns { Object } 登录结果
+ * @author Jackie
+ * @date 2020-03-03 09:17
+ */
+export function login (data) {
   return request({
-    url: common_api + '/ruleCommon/queryrule',
+    url: '/user/login',
     method: 'post',
-    data: qs.stringify(params)
+    data
+  })
+}
+
+/**
+ * @description 获取用户信息
+ * @returns { object } 用户信息
+ * @author Jackie
+ * @date 2020-03-03 09:25
+ */
+export const getUserInfo = _ => {
+  return request({
+    url: '/user/info',
+    method: 'get'
+  })
+}
+
+/**
+ * @description 用户注销
+ * @returns { object } 注销结果
+ * @author Jackie
+ * @date 2020-03-03 09:17
+ */
+export const logout = _ => {
+  return request({
+    url: '/user/logout',
+    method: 'post'
   })
 }

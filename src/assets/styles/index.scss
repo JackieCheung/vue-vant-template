@@ -1,6 +1,11 @@
-@import './variables.scss';
-@import './mixin.scss';
 @import './common.scss';
+@import './mixin.scss';
+
+html {
+  height: 100%;
+  box-sizing: border-box;
+  touch-action: none;
+}
 
 body {
   height: 100%;
@@ -14,14 +19,9 @@ label {
   font-weight: 700;
 }
 
-html {
-  height: 100%;
-  box-sizing: border-box;
-  touch-action: none;
-}
-
 #app {
   height: 100%;
+  overflow: hidden;
 }
 
 *,
@@ -45,17 +45,6 @@ a:hover {
 
 div:focus {
   outline: none;
-}
-
-.clearfix {
-  &:after {
-    visibility: hidden;
-    display: block;
-    font-size: 0;
-    content: " ";
-    clear: both;
-    height: 0;
-  }
 }
 
 // main-container global css

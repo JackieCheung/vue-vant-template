@@ -1,5 +1,7 @@
 const state = {}
 
+const getters = {}
+
 const mutations = {}
 
 const actions = {}
@@ -7,6 +9,7 @@ const actions = {}
 export default {
   namespaced: true,
   state,
+  getters,
   mutations,
   actions
 }
