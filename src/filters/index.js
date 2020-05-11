@@ -70,7 +70,7 @@ export function numberFormatter (num, digits) {
  * @returns { String }
  */
 export function toThousandFilter (num) {
-  return (num || 0).toString().replace(/\B(?=(\d{3})+\b)/g, ',')
+  return (+num || 0).toString().replace(/\B(?=(\d{3})+\b)/g, ',')
 }
 
 /**
