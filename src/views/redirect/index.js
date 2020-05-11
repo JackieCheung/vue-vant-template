@@ -1,3 +1,3 @@
-import Redirect from './Redirect.vue'
+import Redirect from './redirect.vue'
 
 export default Redirect

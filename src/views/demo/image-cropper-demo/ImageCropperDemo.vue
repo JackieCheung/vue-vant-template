@@ -28,11 +28,6 @@
     </van-row>
     <image-cropper
       ref="imageCropper"
-      :auto-crop="true"
-      :fixed="false"
-      :output-size="0.8"
-      :center-box="true"
-      :max-img-size="1200"
       @real-time="handleRealTime"></image-cropper>
   </div>
 </template>
@@ -47,7 +42,6 @@
     },
     data () {
       return {
-        previews: {},
         imageSrc: ''
       }
     },
