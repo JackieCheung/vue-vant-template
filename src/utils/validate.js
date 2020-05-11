@@ -93,6 +93,15 @@ export function isArray (arg) {
 }
 
 /**
+ * @description determine whether is two digits decimal
+ * @param {string} value
+ * @returns {Boolean}
+ */
+export function isTwoDigitsDecimal (value) {
+  return /^(([1-9]{1}\d*)|(0{1}))(\.\d{1,2})?$/.test(value)
+}
+
+/**
  * @description determine whether the current device type is Android
  * @returns { Boolean }
  */

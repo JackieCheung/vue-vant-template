@@ -9,6 +9,8 @@ html {
 
 body {
   height: 100%;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
@@ -20,8 +22,9 @@ label {
 }
 
 #app {
-  height: 100%;
-  overflow: hidden;
+  height: auto;
+  min-height: 100vh;
+  overflow-x: hidden;
 }
 
 *,

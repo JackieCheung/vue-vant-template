@@ -1,6 +1,6 @@
 import Layout from '_v/layout'
 
-const demoRouter = {
+const demoRoute = {
   path: '/demo',
   component: Layout,
   redirect: 'noRedirect',
@@ -28,4 +28,4 @@ const demoRouter = {
   }]
 }
 
-export default demoRouter
+export default demoRoute

@@ -169,7 +169,7 @@ module.exports = {
       })
       .end()
 
-    // // use vue-cli default source-map
+    // use vue-cli default source-map
     // config
     //   // https://webpack.js.org/configuration/devtool/#development
     //   .when(process.env.NODE_ENV === 'development',
