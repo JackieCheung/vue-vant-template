@@ -6,7 +6,7 @@
 
 <script>
   export default {
-    name: 'RouterView',
+    name: 'ParentView',
     computed: {
       cachedViews () {
         return this.$store.state.routerView.cachedViews
