@@ -63,15 +63,6 @@ export function validPhone (phone) {
 }
 
 /**
- * @description determine whether is a string or not
- * @param { String } str
- * @returns { Boolean }
- */
-export function isString (str) {
-  return typeof str === 'string' || str instanceof String
-}
-
-/**
  * @description determine whether is an external path or not
  * @param { String } path
  * @returns { Boolean }
@@ -81,8 +72,17 @@ export function isExternal (path) {
 }
 
 /**
+ * @description determine whether is a string or not
+ * @param { * } arg
+ * @returns { Boolean }
+ */
+export function isString (arg) {
+  return typeof arg === 'string' || arg instanceof String
+}
+
+/**
  * @description determine whether is an array or not
- * @param { Array } arg
+ * @param { * } arg
  * @returns { Boolean }
  */
 export function isArray (arg) {
@@ -90,6 +90,24 @@ export function isArray (arg) {
     return Object.prototype.toString.call(arg) === '[object Array]'
   }
   return Array.isArray(arg)
+}
+
+/**
+ * @description determine whether is an object or not
+ * @param { * } arg
+ * @returns { Boolean }
+ */
+export const isObject = (arg) => {
+  return Object.prototype.toString.call(arg) === '[object Object]'
+}
+
+/**
+ * @description determine whether is a function or not
+ * @param { * } arg
+ * @returns { Boolean }
+ */
+export const isFunction = (arg) => {
+  return Object.prototype.toString.apply(arg) === '[object Function]'
 }
 
 /**
@@ -192,15 +210,6 @@ export const isEmpty = (val) => {
   }
 
   return false
-}
-
-/**
- * @description determine whether is a function or not
- * @param { * } arg
- * @returns { Boolean }
- */
-export const isFunction = (arg) => {
-  return Object.prototype.toString.apply(arg) === '[object Function]'
 }
 
 /**
