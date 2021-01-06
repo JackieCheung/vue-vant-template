@@ -104,6 +104,11 @@
   margin-left: 20px !important;
 }
 
+.ml-25,
+.mx-25 {
+  margin-left: 25px !important;
+}
+
 .mr-0,
 .mx-0 {
   margin-right: 0 !important;
@@ -127,6 +132,11 @@
 .mr-20,
 .mx-20 {
   margin-right: 20px !important;
+}
+
+.mr-25,
+.mx-25 {
+  margin-right: 25px !important;
 }
 
 .mt-0,
@@ -154,6 +164,11 @@
   margin-top: 20px !important;
 }
 
+.mt-25,
+.my-25 {
+  margin-top: 25px !important;
+}
+
 .mb-0,
 .my-0 {
   margin-bottom: 0 !important;
@@ -177,6 +192,11 @@
 .mb-20,
 .my-20 {
   margin-bottom: 20px !important;
+}
+
+.mb-25,
+.my-25 {
+  margin-bottom: 25px !important;
 }
 
 .pt-0,
@@ -204,6 +224,11 @@
   padding-top: 20px !important;
 }
 
+.pt-40,
+.py-40 {
+  padding-top: 40px !important;
+}
+
 .pb-0,
 .py-0 {
   padding-bottom: 0 !important;
@@ -211,7 +236,7 @@
 
 .pb-5,
 .py-5 {
-  padding-bottom: 0 !important;
+  padding-bottom: 5px !important;
 }
 
 .pb-10,
@@ -227,6 +252,11 @@
 .pb-20,
 .py-20 {
   padding-bottom: 20px !important;
+}
+
+.pb-40,
+.py-40 {
+  padding-bottom: 40px !important;
 }
 
 .pr-0,
@@ -283,8 +313,12 @@
   width: 100% !important;
 }
 
+.height-100 {
+  height: 100% !important;
+}
+
 .clearfix {
-  &:after {
+  &::after {
     visibility: hidden;
     display: block;
     font-size: 0;
@@ -292,6 +326,10 @@
     clear: both;
     height: 0;
   }
+}
+
+.cursor-pointer {
+  cursor: pointer !important;
 }
 
 .horizontal-center {

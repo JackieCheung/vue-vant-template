@@ -1,13 +1,26 @@
-const TOKEN_KEY = 'Vue-Vant-Token'
+const ACCESS_TOKEN_KEY = 'Vue-Vant-Access-Token'
+const REFRESH_TOKEN_KEY = 'Vue-Vant-Refresh-Token'
 
-export function getToken () {
-  return window.localStorage.getItem(TOKEN_KEY)
+export function getAccessToken () {
+  return window.sessionStorage.getItem(ACCESS_TOKEN_KEY)
 }
 
-export function setToken (token) {
-  window.localStorage.setItem(TOKEN_KEY, token)
+export function setAccessToken (token) {
+  window.sessionStorage.setItem(ACCESS_TOKEN_KEY, token)
 }
 
-export function removeToken () {
-  window.localStorage.removeItem(TOKEN_KEY)
+export function removeAccessToken () {
+  window.sessionStorage.removeItem(ACCESS_TOKEN_KEY)
+}
+
+export function getRefreshToken () {
+  return window.sessionStorage.getItem(REFRESH_TOKEN_KEY)
+}
+
+export function setRefreshToken (refreshToken) {
+  window.sessionStorage.setItem(REFRESH_TOKEN_KEY, refreshToken)
+}
+
+export function removeRefreshToken () {
+  window.sessionStorage.removeItem(REFRESH_TOKEN_KEY)
 }

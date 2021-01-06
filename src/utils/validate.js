@@ -102,21 +102,12 @@ export const isObject = (arg) => {
 }
 
 /**
- * @description determine whether is a function or not
+ * @description 判断是否为函数
  * @param { * } arg
  * @returns { Boolean }
  */
 export const isFunction = (arg) => {
-  return Object.prototype.toString.apply(arg) === '[object Function]'
-}
-
-/**
- * @description determine whether is two digits decimal
- * @param {string} value
- * @returns {Boolean}
- */
-export function isTwoDigitsDecimal (value) {
-  return /^(([1-9]{1}\d*)|(0{1}))(\.\d{1,2})?$/.test(value)
+  return Object.prototype.toString.call(arg) === '[object Function]'
 }
 
 /**
@@ -136,6 +127,15 @@ export const isIOSDevice = (() => {
 })()
 
 /**
+ * @description determine whether the current device type is mobile
+ * @returns { Boolean }
+ */
+export const isMobileDevice = (() => {
+  // return 'ontouchstart' in window
+  return !!window.navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i)
+})()
+
+/**
  * @description determine whether the browser environment of the current client is a WeChat browser
  * @returns { Boolean }
  */
@@ -152,11 +152,29 @@ export const isAlipayBrowser = (() => {
 })()
 
 /**
- * @description determine whether the scroll bar inside the element is scrolled to the bottom of the element, true if scrollTop + clientHeight === scrollHeight
+ * @description 用户名是不少于6位的字母和数字组合
+ * @param { String } username 用户名
+ * @returns { Boolean }
+ */
+export function validUsername (username) {
+  return /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,}$/.test(username)
+}
+
+/**
+ * @description 密码不能少于6位
+ * @param { String } password 密码
+ * @returns { Boolean }
+ */
+export function validPassword (password) {
+  return password.length >= 6
+}
+
+/**
+ * @description 判断元素内部的滚动条是否滚动到元素底部
  * @param { HTMLElement } element
  * @returns { Boolean }
  * @author Jackie
- * @date 2020-03-20 08:25
+ * @date 2020-03-20 08:22
  */
 export function isScrolledToBottom (element) {
   const scrollTop = element && element.scrollTop || 0
@@ -166,7 +184,7 @@ export function isScrolledToBottom (element) {
 }
 
 /**
- * @description validate whether is an valid id-card number or not
+ * @description 验证身份证号码是否合法
  * @param { String } idCardNo
  * @returns { Boolean }
  * @author Jackie
@@ -177,7 +195,40 @@ export function validIdCard (idCardNo) {
 }
 
 /**
- * @description determine whether the val is empty or not
+ * @description 验证护照是否合法
+ * @param { String } passport
+ * @returns { Boolean }
+ * @author Jackie
+ * @date 2020-06-02 17:20
+ */
+export const validPassport = (passport) => {
+  return /(^[a-zA-Z]{5,17}$)|(^[a-zA-Z0-9]{5,17}$)/.test(passport)
+}
+
+/**
+ * @description 验证港澳通行证是否合法
+ * @param { String } HKMacaoPass
+ * @returns { Boolean }
+ * @author Jackie
+ * @date 2020-06-02 17:20
+ */
+export const validHKMacaoPass = (HKMacaoPass) => {
+  return /^[HMhm]{1}([0-9]{10}|[0-9]{8})$/.test(HKMacaoPass)
+}
+
+/**
+ * @description 验证台湾通行证是否合法
+ * @param { String } TaiwanPass
+ * @returns { Boolean }
+ * @author Jackie
+ * @date 2020-06-02 17:20
+ */
+export const validTaiwanPass = (TaiwanPass) => {
+  return /^[0-9]{8}$|^[0-9]{10}$/.test(TaiwanPass)
+}
+
+/**
+ * @description 判断是否为空
  * @param { * } val
  * @returns { Boolean }
  */
@@ -213,11 +264,11 @@ export const isEmpty = (val) => {
 }
 
 /**
- * @description validate whether is an valid image or not
- * @param { String } url
+ * @description 判断图片地址是否有效
+ * @param { String } url 图片地址
  * @returns { Promise }
  * @author Jackie
- * @date 2020-04-03 08:23
+ * @date 2020-04-03 08:17
  */
 export const validImage = (url) => {
   return new Promise(resolve => {
@@ -227,4 +278,15 @@ export const validImage = (url) => {
     image.crossOrigin = 'anonymous'
     image.src = url
   })
+}
+
+/**
+ * @description 验证输入的金额是否合法
+ * @param { String } val
+ * @returns { Boolean }
+ * @author Jackie
+ * @date 2020-05-16 11:05
+ */
+export const validAmount = (val) => {
+  return /(^[1-9]([0-9]+)?(\.[0-9]{1,2})?$)|(^(0){1}$)|(^[0-9]\.[0-9]([0-9])?$)/.test(val)
 }

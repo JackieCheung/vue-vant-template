@@ -6,7 +6,7 @@ function resolve (dir) {
 }
 
 const autoprefixer = require('autoprefixer')
-const pxtoviewport = require('postcss-px-to-viewport')
+const pxToViewport = require('postcss-px-to-viewport')
 
 const LodashModuleReplacementPlugin = require('lodash-webpack-plugin')
 
@@ -79,7 +79,7 @@ module.exports = {
       // change xxx-api/login => mock/login
       // detail: https://cli.vuejs.org/config/#devserver-proxy
       [process.env.VUE_APP_BASE_API]: {
-        target: `http://127.0.0.1:${port}/mock`,
+        target: process.env.VUE_APP_PROXY_TARGET,
         changeOrigin: true,
         pathRewrite: {
           ['^' + process.env.VUE_APP_BASE_API]: ''
@@ -93,41 +93,39 @@ module.exports = {
       postcss: {
         plugins: [
           autoprefixer(),
-          pxtoviewport({
-            viewportWidth: 375
+          pxToViewport({
+            viewportWidth: 375,
+            // 该项仅在使用 Circle 组件时需要
+            // 原因参见 https://github.com/youzan/vant/issues/1948
+            selectorBlackList: ['van-circle__layer']
           })
         ]
       }
     }
   },
   configureWebpack: config => {
+    // provide the app's title in webpack's name field, so that
+    // it can be accessed in index.html to inject the correct title.
+    config.name = name
+    config.resolve.alias = {
+      '@': resolve('src'),
+      '_v': resolve('src/views'),
+      '_c': resolve('src/components')
+    }
+
     // 为生产环境修改配置...
     if (process.env.NODE_ENV === 'production') {
-      // externals 里的模块不打包
-      Object.assign(config, {
-        // provide the app's title in webpack's name field, so that
-        // it can be accessed in index.html to inject the correct title.
-        name: name,
-        externals: externals
-      })
+      // // externals 里的模块不打包
+      // Object.assign(config, {
+      //   externals: externals
+      // })
     }
     // 为开发环境修改配置...
     if (process.env.NODE_ENV === 'development') {
-      Object.assign(config, {
-        name: name
-      })
+      //
     }
   },
   chainWebpack (config) {
-    config.plugins.delete('preload')
-    config.plugins.delete('prefetch')
-
-    // alias
-    config.resolve.alias
-      .set('@', resolve('src'))
-      .set('_v', resolve('src/views'))
-      .set('_c', resolve('src/components'))
-
     /**
      * 添加CDN参数到htmlWebpackPlugin配置中， 详见public/index.html 修改
      */
@@ -140,6 +138,20 @@ module.exports = {
       }
       return args
     })
+
+    // it can improve the speed of the first screen, it is recommended to turn on preload
+    config.plugin('preload').tap(() => [
+      {
+        rel: 'preload',
+        // to ignore runtime.js
+        // https://github.com/vuejs/vue-cli/blob/dev/packages/@vue/cli-service/lib/config/app.js#L171
+        fileBlacklist: [/\.map$/, /hot-update\.js$/, /runtime\..*\.js$/],
+        include: 'initial'
+      }
+    ])
+
+    // when there are many pages, it will cause too many meaningless requests
+    config.plugins.delete('prefetch')
 
     // set svg-sprite-loader
     config.module
@@ -169,7 +181,13 @@ module.exports = {
       })
       .end()
 
-    // use vue-cli default source-map
+    /**
+     * preserveWhitespace Deprecated since vue@2.6
+     * Recommend whitespace: 'condense', it is the default config in new vue-cli https://github.com/vuejs/vue-cli/pull/3853
+     * Detail: https://github.com/vuejs/vue/issues/9208#issuecomment-450012518
+     */
+
+    // // use vue-cli default source-map
     // config
     //   // https://webpack.js.org/configuration/devtool/#development
     //   .when(process.env.NODE_ENV === 'development',
@@ -178,43 +196,51 @@ module.exports = {
     //   )
 
     config
-      .when(process.env.NODE_ENV !== 'development',
-        config => {
-          config
-            .plugin('ScriptExtHtmlWebpackPlugin')
-            .after('html')
-            .use('script-ext-html-webpack-plugin', [{
-              // `runtime` must same as runtimeChunk name. default is `runtime`
-              inline: /runtime\..*\.js$/
-            }])
-            .end()
-          config
-            .optimization
-            .splitChunks({
-              chunks: 'all',
-              cacheGroups: {
-                libs: {
-                  name: 'chunk-libs',
-                  test: /[\\/]node_modules[\\/]/,
-                  priority: 10,
-                  chunks: 'initial' // only package third parties that are initially dependent
-                },
-                commons: {
-                  name: 'chunk-commons',
-                  test: resolve('src/components'), // can customize your rules
-                  minChunks: 3, //  minimum common number
-                  priority: 5,
-                  reuseExistingChunk: true
-                }
+      .when(process.env.NODE_ENV !== 'development', config => {
+        config
+          .plugin('ScriptExtHtmlWebpackPlugin')
+          .after('html')
+          .use('script-ext-html-webpack-plugin', [{
+            // `runtime` must same as runtimeChunk name. default is `runtime`
+            inline: /runtime\..*\.js$/
+          }])
+          .end()
+        config
+          .optimization
+          .splitChunks({
+            chunks: 'all',
+            cacheGroups: {
+              libs: {
+                name: 'chunk-libs',
+                test: /[\\/]node_modules[\\/]/,
+                priority: 10,
+                chunks: 'initial' // only package third parties that are initially dependent
+              },
+              commons: {
+                name: 'chunk-commons',
+                test: resolve('src/components'), // can customize your rules
+                minChunks: 3, //  minimum common number
+                priority: 5,
+                reuseExistingChunk: true
               }
-            })
-          config.optimization.runtimeChunk('single')
-        }
+            }
+          })
+        config.optimization.runtimeChunk('single')
+      }
       )
     // 生产环境才开启，不然开发时lodash函数不起作用，也不报错
     if (process.env.NODE_ENV === 'production') {
       config.plugin('lodashModuleReplacement')
         .use(new LodashModuleReplacementPlugin())
+      // // 开启 gzip 压缩
+      // config.plugin('compressionPlugin')
+      //   .use(new CompressionPlugin({
+      //     algorithm: 'gzip',
+      //     test: /\.(js|css|json|txt|html|ico|svg|jpg|jpeg|png|gif|woff|woff2|ttf)(\?.*)?$/i, // 所有匹配该正则的资源都会被处理，默认值是全部资源
+      //     threshold: 1024 * 10, // 只有大小大于该值的资源会被处理，单位是 bytes，默认值是 0
+      //     deleteOriginalAssets: false, // 是否删除原始资源，默认值是 false，若设置为 true，则 Nginx 的 gzip_static 静态压缩不会生效，需要 Nginx 配置在线压缩
+      //     minRatio: 0.8 // 只有压缩率（压缩大小 ÷ 原始大小）小于该值的资源才会被处理，默认值是 0.8
+      //   }))
     }
   }
 }

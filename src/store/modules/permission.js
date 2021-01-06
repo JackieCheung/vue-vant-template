@@ -18,16 +18,17 @@ function hasPermission (roles, route) {
  * @description filter asynchronous routing tables by recursion
  * @param { Array } routes
  * @param { Array } roles
+ * @param { Function } matchingFn
  * @returns { Array } permissible routes
  */
-export function filterAsyncRoutes (routes, roles) {
+export function filterAsyncRoutes (routes, roles, matchingFn = null) {
   const res = []
 
   routes.forEach(route => {
     const tmp = { ...route }
-    if (hasPermission(roles, tmp)) {
+    if (hasPermission(roles, tmp) && (!matchingFn || matchingFn(route))) {
       if (tmp.children) {
-        tmp.children = filterAsyncRoutes(tmp.children, roles)
+        tmp.children = filterAsyncRoutes(tmp.children, roles, matchingFn)
       }
       res.push(tmp)
     }
@@ -42,13 +43,18 @@ const state = {
 }
 
 const getters = {
-  routes: state => state.routes
+  routes: state => state.routes,
+  addRoutes: state => state.addRoutes
 }
 
 const mutations = {
   SET_ROUTES: (state, routes) => {
     state.addRoutes = routes
     state.routes = constantRoutes.concat(routes)
+  },
+  RESET_ROUTES: (state) => {
+    state.routes = []
+    state.addRoutes = []
   }
 }
 
@@ -63,6 +69,12 @@ const actions = {
       }
       commit('SET_ROUTES', accessibleRoutes)
       resolve(accessibleRoutes)
+    })
+  },
+  resetRoutes ({ commit }) {
+    return new Promise(resolve => {
+      commit('RESET_ROUTES')
+      resolve()
     })
   }
 }

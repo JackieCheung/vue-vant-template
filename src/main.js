@@ -12,9 +12,9 @@ import './router/auth' // permission control
 import * as filters from './filters' // global filters
 import '@/vendors' // 统一 import 依赖
 
-import authImage from '@/directives/auth-image'
-
-Vue.use(authImage)
+// registers customized directives
+import directives from '@/directives'
+Vue.use(directives)
 
 /**
  * If you don't want to use mock-server
@@ -44,6 +44,8 @@ Vue.prototype.$log = Vue.prototype.$log || console.log
 Window.prototype.assert = Window.prototype.assert || console.assert || function assert (condition, msg) {
   if (!condition) throw new Error(msg || 'Assert Error!')
 }
+
+document.addEventListener('touchstart', event => {})
 
 Vue.config.productionTip = false
 

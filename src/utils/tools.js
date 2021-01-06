@@ -4,7 +4,7 @@
  * @returns { String } page title
  */
 export function getPageTitle (pageTitle) {
-  const title = process.env.VUE_APP_TITLE || 'Vue Vant Template'
+  const title = process.env.VUE_APP_TITLE || 'Vue Element Template'
   if (pageTitle) {
     return `${pageTitle} - ${title}`
   }
@@ -157,19 +157,20 @@ export function param (json) {
  * @returns { Object }
  */
 export function param2Obj (url) {
-  const search = url.split('?')[1]
+  const search = decodeURIComponent(url.split('?')[1]).replace(/\+/g, ' ')
   if (!search) {
     return {}
   }
-  return JSON.parse(
-    '{"' +
-    decodeURIComponent(search)
-      .replace(/"/g, '\\"')
-      .replace(/&/g, '","')
-      .replace(/=/g, '":"')
-      .replace(/\+/g, ' ') +
-    '"}'
-  )
+  const obj = {}
+  const searchArr = search.split('&')
+  searchArr.forEach(v => {
+    const index = v.indexOf('=')
+    if (index !== -1) {
+      const name = v.substring(0, index)
+      obj[name] = v.substring(index + 1, v.length)
+    }
+  })
+  return obj
 }
 
 /**
@@ -309,6 +310,18 @@ export function createUniqueString () {
 }
 
 /**
+ * @description generate guid
+ * @returns { String }
+ */
+export const generateGuid = () => {
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+    const r = Math.random() * 16 | 0
+    const v = c === 'x' ? r : (r & 0x3 | 0x8)
+    return v.toString(16)
+  })
+}
+
+/**
  * @description check if the html element has the class
  * @param { HTMLElement } element
  * @param { String } className
@@ -362,7 +375,7 @@ export function removeClass (element, className) {
 export const getExplorer = () => {
   const ua = window.navigator.userAgent
   const isExplorer = (exp) => {
-    return ua.indexOf(exp) > -1
+    return ua.includes(exp)
   }
   if (isExplorer('MSIE')) {
     return 'IE'
@@ -455,19 +468,50 @@ export const getBase64FromImage = image => {
 
 /**
  * @description write async await without try-catch blocks
- * @param { Function } asyncFunc, asynchronous function
- * @returns { Array } callback result of asynchronous function([response, error])
+ * @param { Promise } asyncFunc, asynchronous function
+ * @returns { Promise } callback result of asynchronous function([response, error])
  */
 export const asyncAction = asyncFunc => {
   return asyncFunc.then(res => {
     return [res, null]
-  }).catch(err => {
-    return [null, err]
+  }).catch(error => {
+    return [null, error]
   })
 }
 
 /**
- * @description transform kebab-case to camelCase
+ * @description invoke AlipayJSBridge
+ * @param { Function } callback, callback function
+ */
+export const invokeAlipayJSBridge = callback => {
+  // eslint-disable-next-line no-undef
+  if (window.AlipayJSBridge) { // 如果 AlipayJSBridge 已经注入则直接调用
+    callback && callback()
+  } else { // 如果没有注入则监听注入的事件
+    document.addEventListener('AlipayJSBridgeReady', callback, false)
+  }
+}
+
+/**
+ * @description invoke WeixinJSBridge
+ * @param { Function } callback, callback function
+ */
+export const invokeWeixinJSBridge = callback => {
+  // eslint-disable-next-line no-undef
+  if (typeof WeixinJSBridge === 'undefined') {
+    if (document.addEventListener) {
+      document.addEventListener('WeixinJSBridgeReady', callback, false)
+    } else if (document.attachEvent) {
+      document.attachEvent('WeixinJSBridgeReady', callback)
+      document.attachEvent('onWeixinJSBridgeReady', callback)
+    }
+  } else {
+    callback()
+  }
+}
+
+/**
+ * @description 转换短横线式为驼峰式
  * @param { String } str
  * @returns { String }
  * @author Jackie
@@ -486,7 +530,7 @@ export const getCamelCase = (function () {
 })()
 
 /**
- * @description transform camelCase to kebab-case
+ * @description 转换驼峰式为短横线式
  * @param { String } str
  * @returns { String }
  * @author Jackie
@@ -505,7 +549,7 @@ export const getKebabCase = (function () {
 })()
 
 /**
- * @description transform camelCase to snake_case
+ * @description 转换驼峰式为下划线式
  * @param { String } str
  * @returns { String }
  * @author Jackie
@@ -524,7 +568,7 @@ export const getSnakeCase = (function () {
 })()
 
 /**
- * @description get the final CSS property value of the element
+ * @description 获取元素指定的最终CSS属性值
  * @param { HTMLElement } element
  * @param { String } property
  * @returns { * }
@@ -536,10 +580,10 @@ export function getFinalStyle (element, property) {
 }
 
 /**
- * @description get intersection of two arrays
+ * @description 获取两个数组的交集
  * @param { Array } arr1
  * @param { Array } arr2
- * @returns { Array } intersection of two arrays
+ * @returns { Array } 两个数组的交集
  * @author Jackie
  * @date 2020-04-05 02:03
  */
@@ -548,10 +592,10 @@ export const getArrayIntersection = (arr1, arr2) => {
 }
 
 /**
- * @description get union of two arrays
+ * @description 获取两个数组的并集
  * @param { Array } arr1
  * @param { Array } arr2
- * @returns { Array } union of two arrays
+ * @returns { Array } 两个数组的并集
  * @author Jackie
  * @date 2020-04-05 02:10
  */
@@ -560,10 +604,10 @@ export const getArrayUnion = (arr1, arr2) => {
 }
 
 /**
- * @description get difference of two arrays
+ * @description 获取两个数组的差集
  * @param { Array } arr1
  * @param { Array } arr2
- * @returns { Array } difference of two arrays
+ * @returns { Array } 两个数组的差集
  * @author Jackie
  * @date 2020-04-05 02:13
  */
@@ -572,51 +616,119 @@ export const getArrayDifference = (arr1, arr2) => {
 }
 
 /**
- * @description 将对象的指定字段置为任意值（ null 或 undefined ）
- * @param { Object} obj 源对象
- * @param { Array } keys 指定的字段
- * @param { * } value 指定的值
- * @return { null }
+ * @description 获取树形结构数据的指定节点
+ * @param { String } property 指定属性
+ * @param { String } value 指定值
+ * @param { Array } data 树形结构数据
+ * @returns { Object } 指定节点
  * @author Jackie
- * @date 2019/9/19 17:11
+ * @date 2020-06-20 10:10
  */
-export const replaceObjProps = (obj, keys, value) => {
-  keys.map(key => {
-    if (Object.prototype.hasOwnProperty.call(obj, key)) {
-      obj[key] = value
+export const getNodeByPropertyRecursively = (property, value, data) => {
+  let node = null
+  for (let i = 0; i < data.length; i++) {
+    if (data[i][property] === value) {
+      node = data[i]
+    } else if (Array.isArray(data[i].children) && data[i].children.length) {
+      node = getNodeByPropertyRecursively(property, value, data[i].children)
     }
-  })
+    if (node) break
+  }
+  return node
 }
 
 /**
- * @description: 调用 AlipayJSBridge
- * @author: Jackie
- * @date: 2019/9/10 16:49
+ * @description 校验密码强度
+ * @param { String } value 密码
+ * @returns { Object } 密码强度（ WEEK - 弱，MEDIUM - 中，STRONG - 强，STRONGEST - 极强 ）
+ * @author Jackie
+ * @date 2020-06-30 10:49
  */
-export const invokeAlipayJSBridge = callback => {
-  // eslint-disable-next-line no-undef
-  if (window.AlipayJSBridge) { // 如果 AlipayJSBridge 已经注入则直接调用
-    callback && callback()
-  } else { // 如果没有注入则监听注入的事件
-    document.addEventListener('AlipayJSBridgeReady', callback, false)
+export const verifyPasswordStrength = (value) => {
+  if (value.length < 6) {
+    return null
+  }
+  let mode = 0
+  // 数字
+  if (/\d/.test(value)) mode++
+  // 小写字母
+  if (/[a-z]/.test(value)) mode++
+  // 大写字母
+  if (/[A-Z]/.test(value)) mode++
+  // 特殊字符
+  if (/\W|_/.test(value)) mode++
+  switch (mode) {
+    case 1:
+      return {
+        value: 'WEEK',
+        label: '弱',
+        level: 1,
+        color: '#ed4014'
+      }
+    case 2:
+      return {
+        value: 'MEDIUM',
+        label: '中',
+        level: 2,
+        color: '#ff9900'
+      }
+    case 3:
+      return {
+        value: 'STRONG',
+        label: '强',
+        level: 3,
+        color: '#19be6b'
+      }
+    case 4:
+      return {
+        value: 'STRONGEST',
+        label: '极强',
+        level: 4,
+        color: '#19be6b'
+      }
+    default:
+      return {}
   }
 }
 
 /**
- * @description: 调用 WeixinJSBridge
- * @author: Jackie
- * @date: 2019/9/10 16:50
+ * @description 下载文件
+ * @param { String } url 下载地址
+ * @param { String } name 文件名
+ * @param { Function } cb 回调函数
+ * @author Jackie
+ * @date 2020-08-07 08:28
  */
-export const invokeWeixinJSBridge = callback => {
-  // eslint-disable-next-line no-undef
-  if (typeof WeixinJSBridge === 'undefined') {
-    if (document.addEventListener) {
-      document.addEventListener('WeixinJSBridgeReady', callback, false)
-    } else if (document.attachEvent) {
-      document.attachEvent('WeixinJSBridgeReady', callback)
-      document.attachEvent('onWeixinJSBridgeReady', callback)
-    }
-  } else {
-    callback()
-  }
+export const downloadFile = (url, name, cb) => {
+  // const FileSaver = require('file-saver')
+  // const xhr = new XMLHttpRequest()
+  // xhr.open('GET', url, true)
+  // xhr.responseType = 'blob'
+  // xhr.onload = _ => {
+  //   const file = new Blob([xhr.response])
+  //   FileSaver.saveAs(file, name)
+  //   cb && cb()
+  // }
+  // xhr.send()
+  const a = document.createElement('a')
+  a.style.display = 'none'
+  a.href = url
+  a.target = '_blank'
+  a.download = name
+  document.body.appendChild(a)
+  a.click()
+  document.body.removeChild(a)
+  cb && cb()
+}
+
+/**
+ * @description get the type of specified value
+ * @param { * } value
+ * @returns { String }
+ * @author Jackie
+ * @date 2020-08-12 09:03
+ */
+export const getType = (value) => {
+  // return Object.prototype.toString.call(value).replace(/^\[object (.+)\]$/, '$1').toLowerCase()
+  return Object.prototype.toString.call(value).slice(8, -1).toLowerCase()
 }

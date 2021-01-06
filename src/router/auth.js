@@ -2,7 +2,7 @@ import router from '@/router/index'
 import store from '@/store'
 import NProgress from 'nprogress' // progress bar
 import 'nprogress/nprogress.css' // progress bar style
-import { getToken } from '@/utils/token' // get token from localstorage
+import { getAccessToken } from '@/utils/token' // get token from localstorage
 import { getPageTitle } from '@/utils/tools'
 
 NProgress.configure({ showSpinner: false }) // NProgress Configuration
@@ -13,13 +13,23 @@ router.beforeEach(async (to, from, next) => {
   // start progress bar
   NProgress.start()
 
+  // flatten nested multi-level routes contain 'ParentRouterView'
+  if (to.matched && to.matched.length > 2) {
+    for (let i = 0; i < to.matched.length; i++) {
+      const element = to.matched[i]
+      if (element.components.default.name === 'ParentRouterView') {
+        to.matched.splice(i, 1)
+      }
+    }
+  }
+
   // set page title
   document.title = getPageTitle(to.meta.title)
 
   // determine whether the user has logged in
-  const hasToken = getToken()
+  const hasAccessToken = getAccessToken()
 
-  if (hasToken) {
+  if (hasAccessToken) {
     if (to.path === '/login') {
       // if is logged in, redirect to the home page
       next({ path: '/' })
@@ -52,7 +62,7 @@ router.beforeEach(async (to, from, next) => {
         } catch (error) {
           // remove token and go to login page to re-login
           await store.dispatch('user/resetToken')
-          next(`/login?redirect=${to.path}`)
+          next(`/login?redirect=${encodeURIComponent(to.fullPath)}`)
           NProgress.done()
         }
       }
@@ -64,12 +74,12 @@ router.beforeEach(async (to, from, next) => {
       next()
     } else {
       // other pages that do not have permission to access are redirected to the login page
-      next(`/login?redirect=${to.path}`)
+      next(`/login?redirect=${encodeURIComponent(to.fullPath)}`)
       NProgress.done()
     }
   }
 })
 router.afterEach(() => {
-  // todo
+  // finish progress bar
   NProgress.done()
 })

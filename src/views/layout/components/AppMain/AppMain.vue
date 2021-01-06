@@ -1,21 +1,18 @@
 <template>
-  <section class="app-main">
-    <keep-alive :include="cachedViews">
-      <router-view :key="key" />
-    </keep-alive>
-  </section>
+  <main class="app-main">
+    <div class="app-main__content">
+      <parent-router-view></parent-router-view>
+    </div>
+  </main>
 </template>
 
 <script>
+  import ParentRouterView from '_c/ParentRouterView'
+
   export default {
     name: 'AppMain',
-    computed: {
-      cachedViews () {
-        return this.$store.state.routerView.cachedViews
-      },
-      key () {
-        return this.$route.path
-      }
+    components: {
+      ParentRouterView
     }
   }
 </script>

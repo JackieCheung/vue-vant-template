@@ -1,4 +1,4 @@
-const user = [{
+module.exports = [{
   url: '/user/get',
   type: 'post',
   response: _ => {
@@ -30,5 +30,3 @@ const user = [{
     }
   }
 }]
-
-export default user

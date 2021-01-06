@@ -1,22 +1,30 @@
 import { login, logout, getUserInfo } from '@/api/user'
-import { getToken, setToken, removeToken } from '@/utils/token'
+import {
+  getAccessToken, setAccessToken, removeAccessToken,
+  getRefreshToken, setRefreshToken, removeRefreshToken
+} from '@/utils/token'
 import router, { resetRouter } from '@/router'
 
 const state = {
-  token: getToken(),
+  accessToken: getAccessToken(),
+  refreshToken: getRefreshToken(),
   roles: [],
   userInfo: {}
 }
 
 const getters = {
-  token: state => state.token,
+  accessToken: state => state.accessToken,
+  refreshToken: state => state.refreshToken,
   roles: state => state.roles,
   userInfo: state => state.userInfo
 }
 
 const mutations = {
-  SET_TOKEN: (state, token) => {
-    state.token = token
+  SET_ACCESS_TOKEN: (state, accessToken) => {
+    state.accessToken = accessToken
+  },
+  SET_REFRESH_TOKEN: (state, refreshToken) => {
+    state.refreshToken = refreshToken
   },
   SET_ROLES: (state, roles) => {
     state.roles = roles
@@ -37,9 +45,16 @@ const actions = {
         password: password
       }).then(response => {
         if (response.code === 0) {
-          const { token } = response.data
-          commit('SET_TOKEN', token)
-          setToken(token)
+          const {
+            access_token: accessToken,
+            refresh_token: refreshToken
+          } = response.data
+
+          commit('SET_ACCESS_TOKEN', accessToken)
+          setAccessToken(accessToken)
+
+          commit('SET_REFRESH_TOKEN', refreshToken)
+          setRefreshToken(refreshToken)
         }
         resolve(response)
       }).catch(error => {
@@ -78,14 +93,20 @@ const actions = {
   logout ({ commit, state, dispatch }) {
     return new Promise((resolve, reject) => {
       logout().then(() => {
-        commit('SET_TOKEN', '')
+        commit('SET_ACCESS_TOKEN', '')
+        commit('SET_REFRESH_TOKEN', '')
         commit('SET_ROLES', [])
 
-        removeToken()
+        removeAccessToken()
+        removeRefreshToken()
+
         resetRouter()
 
         // reset visited views and cached views
         dispatch('routerView/delAllViews', null, { root: true })
+
+        // reset routes
+        dispatch('permission/resetRoutes', null, { root: true })
 
         resolve()
       }).catch(error => {
@@ -94,12 +115,25 @@ const actions = {
     })
   },
 
+  // update token
+  updateToken ({ commit }, { accessToken, refreshToken }) {
+    commit('SET_ACCESS_TOKEN', accessToken)
+    setAccessToken(accessToken)
+
+    commit('SET_REFRESH_TOKEN', refreshToken)
+    setRefreshToken(refreshToken)
+  },
+
   // remove token
   resetToken ({ commit }) {
     return new Promise(resolve => {
-      commit('SET_TOKEN', '')
+      commit('SET_ACCESS_TOKEN', '')
+      commit('SET_REFRESH_TOKEN', '')
       commit('SET_ROLES', [])
-      removeToken()
+
+      removeAccessToken()
+      removeRefreshToken()
+
       resolve()
     })
   },
@@ -111,7 +145,7 @@ const actions = {
       const token = role + '-token'
 
       commit('SET_TOKEN', token)
-      setToken(token)
+      setAccessToken(token)
 
       const { roles } = await dispatch('getUserInfo')
 
@@ -127,6 +161,17 @@ const actions = {
       dispatch('routerView/delAllViews', null, { root: true })
 
       resolve()
+    })
+  },
+
+  // update user info
+  updateUserInfo ({
+    commit,
+    state
+  }, userInfo) {
+    commit('SET_USER_INFO', {
+      ...state.userInfo,
+      ...userInfo
     })
   }
 }

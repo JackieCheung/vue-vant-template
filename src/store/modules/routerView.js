@@ -129,9 +129,10 @@ const actions = {
   },
 
   delAllViews ({ dispatch, state }, view) {
-    return new Promise(resolve => {
-      dispatch('delAllVisitedViews', view)
-      dispatch('delAllCachedViews', view)
+    // eslint-disable-next-line no-async-promise-executor
+    return new Promise(async resolve => {
+      await dispatch('delAllVisitedViews', view)
+      await dispatch('delAllCachedViews', view)
       resolve({
         visitedViews: [...state.visitedViews],
         cachedViews: [...state.cachedViews]

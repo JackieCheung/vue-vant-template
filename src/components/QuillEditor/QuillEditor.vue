@@ -91,7 +91,7 @@
 
 <style lang="scss" scoped>
   .quill-editor {
-    /deep/ .ql-container {
+    ::v-deep .ql-container {
       height: 100px;
     }
   }

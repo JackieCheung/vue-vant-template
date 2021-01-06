@@ -26,14 +26,14 @@ const setImgSrc = (el, binding) => {
       url: url,
       method: 'GET'
     }).then(response => {
-      if (response.data.signatureUrl) {
-        // validImage(response.data.signatureUrl).then(res => {
+      if (response.data) {
+        // validImage(response.data).then(res => {
         //   const src = res ? response.data.signatureUrl : ''
         //   el.localName === 'img' ? el.src = src : ''
         //   fn && fn(src)
         //   !res && remove ? el.parentNode.removeChild(el) : ''
         // })
-        const src = response.data.signatureUrl || ''
+        const src = response.data
         el.localName === 'img' ? el.src = src : ''
         fn && fn(src)
       } else {

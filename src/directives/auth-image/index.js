@@ -1,5 +1,5 @@
 /**
- * @description: 自定义指令，允许img标签的src可以访问受保护的路径
+ * @description: 允许img标签的src可以访问受保护的路径
  * @author: Jackie
  * @date: 2019/10/21 16:04
  */

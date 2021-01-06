@@ -40,3 +40,20 @@ export const logout = _ => {
     method: 'post'
   })
 }
+
+/**
+ * @description 刷新token
+ * @param { String } refreshToken
+ * @returns { Object } 刷新后的token信息
+ * @author Jackie
+ * @date 2020-12-03 17:22
+ */
+export const refreshAccessToken = (refreshToken) => {
+  return request({
+    url: '/login/refresh',
+    method: 'post',
+    data: {
+      refresh_token: refreshToken
+    }
+  })
+}

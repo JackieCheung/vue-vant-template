@@ -75,6 +75,15 @@
         type: [String, Blob, null, File],
         default: ''
       },
+      accept: {
+        type: String,
+        default: 'image/jpeg'
+      },
+      // 截图框默认是否覆盖原图位置
+      cropBoxCover: {
+        type: Boolean,
+        default: true
+      },
       // 图片读取完成前回调
       beforeImageRead: {
         type: Function,
@@ -90,6 +99,8 @@
       return {
         btnSize: 'mini',
         imgSrc: '', // 裁剪图片的地址，默认值：空，可选值：url 地址 || base64 || blob || file
+        cropWidth: '',
+        cropHeight: '',
         preview: {
           url: '' // 预览图片的 url 地址
         }
@@ -152,6 +163,7 @@
         this.$emit('imgLoad', status === 'success')
       },
       handleRealTime: debounce(function (obj) {
+        this.getCropData(data => { this.preview.url = data })
         this.$emit('realTime', obj)
         this.$emit('real-time', obj)
       }, 400),
@@ -182,8 +194,8 @@
         return this.$refs.cropper.getCropAxis()
       },
       // 自动生成截图框函数
-      goAutoCrop () {
-        return this.$refs.cropper.goAutoCrop()
+      goAutoCrop (width, height) {
+        return this.$refs.cropper.goAutoCrop(width, height)
       },
       // 向右边旋转90度
       rotateRight () {
@@ -224,8 +236,14 @@
       },
       // 点击上传
       uploadImage () {
-        this.$emit('uploadImage', this.getCropBlob)
-        this.$emit('upload-image', this.getCropBlob)
+        this.$emit('uploadImage', {
+          'getCropBase64Str': this.getCropData,
+          'getCropBlob': this.getCropBlob
+        })
+        this.$emit('upload-image', {
+          'getCropBase64Str': this.getCropData,
+          'getCropBlob': this.getCropBlob
+        })
       }
     }
   }
