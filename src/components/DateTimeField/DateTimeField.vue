@@ -5,6 +5,7 @@
       v-bind="attrs"
       v-model="formattedValue"
       v-on="listeners"
+      @click="readonly ? '' : showPicker = true"
     >
       <template #label>
         <slot name="label"></slot>
@@ -81,6 +82,10 @@
         default: (value) => {
           return dayjs(value).format('YYYY年MM月DD日')
         }
+      },
+      readonly: {
+        type: Boolean,
+        default: false
       }
     },
     data () {
@@ -98,8 +103,8 @@
           label: '日期',
           placeholder: '请选择日期'
         }, this.$attrs, {
-          readonly: true,
-          clickable: true
+          clickable: true,
+          readonly: true
         })
       },
       listeners () {
@@ -154,8 +159,12 @@
     watch: {
       value: {
         handler (newValue) {
-          this.selectedDateTime = new Date(newValue)
-          this.formattedValue = this.formatter && this.formatter(this.newValue) || newValue
+          if (newValue) {
+            this.selectedDateTime = newValue
+            this.formattedValue = this.formatter && this.formatter(newValue) || newValue
+          } else {
+            this.selectedDateTime = new Date()
+          }
         },
         immediate: true
       }
