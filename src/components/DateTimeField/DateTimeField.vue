@@ -63,6 +63,8 @@
 </template>
 
 <script>
+  import dayjs from 'dayjs'
+
   export default {
     name: 'DateTimeField',
     props: {
@@ -70,9 +72,15 @@
         type: String,
         default: ''
       },
+      format: {
+        type: String,
+        default: 'YYYY-MM-DD'
+      },
       formatter: {
         type: Function,
-        default: null
+        default: (value) => {
+          return dayjs(value).format('YYYY年MM月DD日')
+        }
       }
     },
     data () {
@@ -133,17 +141,12 @@
         return Object.assign(
           {},
           {
-            change: (picker) => {
+            change: this.$listeners['picker-Change'] || this.$listeners['pickerChange'] || ((picker) => {
               this.$emit('picker-change', picker)
               this.$emit('pickerChange', picker)
-            },
-            confirm: this.handlePickerConfirm,
-            cancel: this.handlePickerCancel
-          },
-          {
-            change: this.$listeners['picker-Change'] || this.$listeners['pickerChange'],
-            confirm: this.$listeners['picker-confirm'] || this.$listeners['pickerConfirm'],
-            cancel: this.$listeners['picker-cancel'] || this.$listeners['pickerCancel']
+            }),
+            confirm: this.$listeners['picker-cancel'] || this.$listeners['pickerCancel'] || this.handlePickerConfirm,
+            cancel: this.$listeners['picker-cancel'] || this.$listeners['pickerCancel'] || this.handlePickerCancel
           }
         )
       }
@@ -151,18 +154,19 @@
     watch: {
       value: {
         handler (newValue) {
-          this.selectedDateTime = newValue
-          this.formattedValue = this.formatter && this.formatter(newValue) || newValue
+          this.selectedDateTime = new Date(newValue)
+          this.formattedValue = this.formatter && this.formatter(this.newValue) || newValue
         },
         immediate: true
       }
     },
     methods: {
       handlePickerConfirm (value) {
-        this.selectedDateTime = value
-        this.formattedValue = this.formatter && this.formatter(value) || value
-        this.$emit('picker-confirm', value, this.formattedValue)
-        this.$emit('pickerConfirm', value, this.formattedValue)
+        this.showPicker = false
+        this.selectedDateTime = dayjs(value).format(this.format)
+        this.formattedValue = this.formatter && this.formatter(this.selectedDateTime) || this.selectedDateTime
+        this.$emit('picker-confirm', this.selectedDateTime, this.formattedValue)
+        this.$emit('pickerConfirm', this.selectedDateTime, this.formattedValue)
       },
       handlePickerCancel () {
         this.showPicker = false
