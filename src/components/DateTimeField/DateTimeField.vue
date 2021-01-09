@@ -3,7 +3,7 @@
     <van-field
       ref="dateTimeField"
       v-bind="attrs"
-      v-model="selectedDateTime"
+      v-model="formattedValue"
       v-on="listeners"
     >
       <template #label>
@@ -33,6 +33,7 @@
       <van-datetime-picker
         ref="dateTimePicker"
         v-bind="pickerAttrs"
+        v-model="selectedDateTime"
         v-on="pickerListeners"
       >
         <template #pciker-default>
@@ -68,11 +69,16 @@
       value: {
         type: String,
         default: ''
+      },
+      formatter: {
+        type: Function,
+        default: null
       }
     },
     data () {
       return {
         selectedDateTime: '',
+        formattedValue: '',
         showPicker: false
       }
     },
@@ -94,8 +100,8 @@
           this.$listeners,
           {
             input: value => {
-              this.$emit('input', value)
-              this.$emit('change', value)
+              this.$emit('input', this.selectedDateTime, value)
+              this.$emit('change', this.selectedDateTime, value)
             }
           }
         )
@@ -133,8 +139,9 @@
             },
             confirm: (value) => {
               this.selectedDateTime = value
-              this.$emit('picker-confirm', value)
-              this.$emit('pickerConfirm', value)
+              this.formattedValue = this.formatter && this.formatter(value) || value
+              this.$emit('picker-confirm', value, this.formattedValue)
+              this.$emit('pickerConfirm', value, this.formattedValue)
             },
             cancel: () => {
               this.showPicker = false
@@ -154,6 +161,7 @@
       value: {
         handler (newValue) {
           this.selectedDateTime = newValue
+          this.formattedValue = this.formatter && this.formatter(newValue) || newValue
         },
         immediate: true
       }
