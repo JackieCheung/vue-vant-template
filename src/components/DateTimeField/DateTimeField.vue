@@ -113,8 +113,10 @@
           this.$listeners,
           {
             input: value => {
-              this.$emit('input', this.selectedDateTime, value)
-              this.$emit('change', this.selectedDateTime, value)
+              console.log(value)
+              const result = dayjs(this.selectedDateTime).format(this.format)
+              this.$emit('input', result, value)
+              this.$emit('change', result, value)
             }
           }
         )
@@ -160,7 +162,7 @@
       value: {
         handler (newValue) {
           if (newValue) {
-            this.selectedDateTime = newValue
+            this.selectedDateTime = new Date(newValue)
             this.formattedValue = this.formatter && this.formatter(newValue) || newValue
           } else {
             this.selectedDateTime = new Date()
@@ -172,10 +174,10 @@
     methods: {
       handlePickerConfirm (value) {
         this.showPicker = false
-        this.selectedDateTime = dayjs(value).format(this.format)
-        this.formattedValue = this.formatter && this.formatter(this.selectedDateTime) || this.selectedDateTime
-        this.$emit('picker-confirm', this.selectedDateTime, this.formattedValue)
-        this.$emit('pickerConfirm', this.selectedDateTime, this.formattedValue)
+        const result = dayjs(value).format(this.format)
+        this.formattedValue = this.formatter && this.formatter(result) || result
+        this.$emit('picker-confirm', result, this.formattedValue)
+        this.$emit('pickerConfirm', result, this.formattedValue)
       },
       handlePickerCancel () {
         this.showPicker = false
