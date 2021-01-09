@@ -137,17 +137,8 @@
               this.$emit('picker-change', picker)
               this.$emit('pickerChange', picker)
             },
-            confirm: (value) => {
-              this.selectedDateTime = value
-              this.formattedValue = this.formatter && this.formatter(value) || value
-              this.$emit('picker-confirm', value, this.formattedValue)
-              this.$emit('pickerConfirm', value, this.formattedValue)
-            },
-            cancel: () => {
-              this.showPicker = false
-              this.$emit('picker-cancel')
-              this.$emit('pickerCancel')
-            }
+            confirm: this.handlePickerConfirm,
+            cancel: this.handlePickerCancel
           },
           {
             change: this.$listeners['picker-Change'] || this.$listeners['pickerChange'],
@@ -166,7 +157,19 @@
         immediate: true
       }
     },
-    methods: {}
+    methods: {
+      handlePickerConfirm (value) {
+        this.selectedDateTime = value
+        this.formattedValue = this.formatter && this.formatter(value) || value
+        this.$emit('picker-confirm', value, this.formattedValue)
+        this.$emit('pickerConfirm', value, this.formattedValue)
+      },
+      handlePickerCancel () {
+        this.showPicker = false
+        this.$emit('picker-cancel')
+        this.$emit('pickerCancel')
+      }
+    }
   }
 </script>
 
