@@ -103,22 +103,14 @@
           label: '日期',
           placeholder: '请选择日期'
         }, this.$attrs, {
-          clickable: true,
+          clickable: !this.readonly,
           readonly: true
         })
       },
       listeners () {
         return Object.assign(
           {},
-          this.$listeners,
-          {
-            input: value => {
-              console.log(value)
-              const result = dayjs(this.selectedDateTime).format(this.format)
-              this.$emit('input', result, value)
-              this.$emit('change', result, value)
-            }
-          }
+          this.$listeners
         )
       },
       // popup
@@ -178,6 +170,8 @@
         this.formattedValue = this.formatter && this.formatter(result) || result
         this.$emit('picker-confirm', result, this.formattedValue)
         this.$emit('pickerConfirm', result, this.formattedValue)
+        this.$emit('input', result, this.formattedValue)
+        this.$emit('change', result, this.formattedValue)
       },
       handlePickerCancel () {
         this.showPicker = false
