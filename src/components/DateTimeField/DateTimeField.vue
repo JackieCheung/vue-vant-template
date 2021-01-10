@@ -79,9 +79,7 @@
       },
       formatter: {
         type: Function,
-        default: (value) => {
-          return dayjs(value).format('YYYY年MM月DD日')
-        }
+        default: null
       },
       readonly: {
         type: Boolean,
