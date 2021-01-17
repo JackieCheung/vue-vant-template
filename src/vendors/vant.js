@@ -25,7 +25,8 @@ import {
   Picker,
   Area,
   Rate,
-  Checkbox
+  Checkbox,
+  Calendar
 } from 'vant'
 
 Vue
@@ -54,5 +55,6 @@ Vue
   .use(Area)
   .use(Rate)
   .use(Checkbox)
+  .use(Calendar)
 
 Vue.prototype.$imagePreview = ImagePreview

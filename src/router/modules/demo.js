@@ -25,6 +25,14 @@ const demoRoute = {
       title: 'quill富文本编辑器demo',
       keepAlive: false
     }
+  }, {
+    path: 'calendar',
+    component: () => import('_v/demo/calendar-demo'),
+    name: 'CalendarDemo',
+    meta: {
+      title: 'calendar日历demo',
+      keepAlive: false
+    }
   }]
 }
 

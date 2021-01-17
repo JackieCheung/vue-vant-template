@@ -7,7 +7,7 @@ import { getPageTitle } from '@/utils/tools'
 
 NProgress.configure({ showSpinner: false }) // NProgress Configuration
 
-const whiteList = ['/', '/login', '/register', '/demo', '/demo/imageCropper', '/demo/quillEditor'] // free login whitelists
+const whiteList = ['/', '/login', '/register', '/demo', '/demo/imageCropper', '/demo/quillEditor', '/demo/calendar'] // free login whitelists
 
 router.beforeEach(async (to, from, next) => {
   // start progress bar
