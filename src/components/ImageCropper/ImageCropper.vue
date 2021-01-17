@@ -5,17 +5,20 @@
         ref="cropper"
         :img="imgSrc"
         v-bind="attrs"
-        v-on="listeners"></vue-cropper>
+        v-on="listeners"
+      ></vue-cropper>
     </div>
     <!--放大、缩小、左旋转、右旋转、更换图片按钮-->
     <div class="btn-controller">
       <van-uploader
         :max-count="1"
         :before-read="handleFileBeforeRead"
-        :after-read="handleFileAfterRead">
+        :after-read="handleFileAfterRead"
+      >
         <van-button
           type="warning"
-          :size="btnSize">
+          :size="btnSize"
+        >
           选择图片
         </van-button>
       </van-uploader>
@@ -23,31 +26,36 @@
         type="info"
         class="ml-5"
         :size="btnSize"
-        @click="changeScale(1)">
+        @click="changeScale(1)"
+      >
         <font-awesome-icon icon="search-plus" />
       </van-button>
       <van-button
         type="info"
         :size="btnSize"
-        @click="changeScale(-1)">
+        @click="changeScale(-1)"
+      >
         <font-awesome-icon icon="search-minus" />
       </van-button>
       <van-button
         type="info"
         :size="btnSize"
-        @click="rotateLeft">
+        @click="rotateLeft"
+      >
         <font-awesome-icon icon="undo" />
       </van-button>
       <van-button
         type="info"
         :size="btnSize"
-        @click="rotateRight">
+        @click="rotateRight"
+      >
         <font-awesome-icon icon="redo" />
       </van-button>
       <van-button
         type="primary"
         :size="btnSize"
-        @click="uploadImage">
+        @click="uploadImage"
+      >
         <font-awesome-icon icon="upload" />
         上传
       </van-button>

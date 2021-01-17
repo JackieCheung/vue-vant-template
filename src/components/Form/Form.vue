@@ -9,6 +9,9 @@
 <script>
   export default {
     name: 'VForm',
+    provide () {
+      return { form: this }
+    },
     props: {
       model: {
         type: Object,
@@ -28,9 +31,6 @@
         },
         default: 'off'
       }
-    },
-    provide () {
-      return { form: this }
     },
     data () {
       return {

@@ -8,31 +8,37 @@
     :required="isRequired"
     :error="errorHighLight && validateMessage !== ''"
     :error-message="validateMessage"
-    v-on="$listensers">
+    v-on="$listensers"
+  >
     {slots('left-icon') && (
     <template
-      #left-icon>
+      #left-icon
+    >
       <slot name="left-icon"></slot>
     </template>
     )}
     {slots('label') && (
     <template
-      #label>
+      #label
+    >
       <slot name="label"></slot>
     </template>
     )}
     {slots('button') && (
     <template
       #button
-      scope-slot="{data}">
+      scope-slot="{data}"
+    >
       <slot
         name="button"
-        :data="val"></slot>
+        :data="val"
+      ></slot>
     </template>
     )}
     {slots('right-icon') && (
     <template
-      #right-icon>
+      #right-icon
+    >
       <slot name="right-icon"></slot>
     </template>
     )}
@@ -67,6 +73,7 @@
 
   export default {
     name: 'FormItem',
+    inject: ['form'],
     // detail @see https://cn.vuejs.org/v2/api/#model
     model: {
       prop: 'value',
@@ -153,7 +160,6 @@
         this.setRules()
       }
     },
-    inject: ['form'],
     created () {
       this.isRequired = this.required
     },

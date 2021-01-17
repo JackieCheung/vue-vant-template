@@ -11,7 +11,8 @@
     @page-loaded="handlePageLoaded"
     @num-pages="handleNumPages"
     @error="handleError"
-    @link-clicked="handleLinkClicked"></pdf>
+    @link-clicked="handleLinkClicked"
+  ></pdf>
 </template>
 
 <script>

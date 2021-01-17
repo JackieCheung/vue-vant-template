@@ -5,7 +5,8 @@
     </van-divider>
     <QuillEditor
       v-model="content"
-      @change="handleEditorChange"></QuillEditor>
+      @change="handleEditorChange"
+    ></QuillEditor>
   </div>
 </template>
 
