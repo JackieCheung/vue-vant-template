@@ -1,6 +1,7 @@
 import axios from 'axios'
 import store from '@/store'
 import router from '@/router'
+import { Toast } from 'vant'
 import { isFunction } from './validate'
 import { refreshAccessToken } from '@/api/user'
 import { getType } from '@/utils/tools'
@@ -95,7 +96,7 @@ HttpRequest.interceptors.response.use(
               // 重试当前请求并返回promise
               return HttpRequest(config)
             } else {
-              Message.error('登录超时，请重新登录！')
+              Toast.fail('登录超时，请重新登录！')
               // remove token and go to login page to re-login
               store.dispatch('user/resetToken').then(() => {
                 router.push({ path: `/login?redirect=${encodeURIComponent(router.history._startLocation)}` }).catch(err => err)
@@ -105,7 +106,7 @@ HttpRequest.interceptors.response.use(
           }).catch(error => {
             // 刷新 token 失败，重新登录
             console.error('Refresh Token Error: ', error)
-            Message.error('登录超时，请重新登录！')
+            Toast.fail('登录超时，请重新登录！')
             // remove token and go to login page to re-login
             store.dispatch('user/resetToken').then(() => {
               router.push({ path: `/login?redirect=${encodeURIComponent(router.history._startLocation)}` }).catch(err => err)
@@ -204,4 +205,3 @@ class PendingRequest {
 }
 
 export default HttpRequest
-
