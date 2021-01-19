@@ -60,16 +60,16 @@
         //   }, 300)
         // }
         if (this.expand) {
-          this.$el.querySelectorAll('.van-calendar__day').forEach(el => {
+          for (const el of this.$el.querySelectorAll('.van-calendar__day')) {
             removeClass(el, 'fade-out')
-          })
+          }
         } else {
-          this.$el.querySelectorAll('.van-calendar__day').forEach(el => {
-            const selectedNode = this.$el.querySelector('.van-calendar__selected-day').parentNode
+          const selectedNode = this.$el.querySelector('.van-calendar__selected-day').parentNode
+          for (const el of this.$el.querySelectorAll('.van-calendar__day')) {
             if (el !== selectedNode && el.getBoundingClientRect().top !== selectedNode.getBoundingClientRect().top) {
               addClass(el, 'fade-out')
             }
-          })
+          }
         }
       }
     }

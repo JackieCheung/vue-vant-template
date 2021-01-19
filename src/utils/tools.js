@@ -323,7 +323,7 @@ export const generateGuid = () => {
 
 /**
  * @description check if the html element has the class
- * @param { Element } element
+ * @param { HTMLElement } element
  * @param { String } className
  * @returns { Boolean }
  */
@@ -333,7 +333,7 @@ export function hasClass (element, className) {
 
 /**
  * @description add the class to the html element
- * @param { Element } element
+ * @param { HTMLElement } element
  * @param { String } className
  */
 export function addClass (element, className) {
@@ -342,7 +342,7 @@ export function addClass (element, className) {
 
 /**
  * @description remove the class from the html element
- * @param { Element } element
+ * @param { HTMLElement } element
  * @param { String } className
  */
 export function removeClass (element, className) {
@@ -355,7 +355,7 @@ export function removeClass (element, className) {
 
 // /**
 //  * @description trigger the class of the html element
-//  * @param { Element } element
+//  * @param { HTMLElement } element
 //  * @param { String } className
 //  * @author Jackie
 //  * @date 2020-04-27 16:35
