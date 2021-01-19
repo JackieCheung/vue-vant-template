@@ -16,9 +16,11 @@
 </template>
 
 <script>
-  import { getFinalStyle } from '@/utils/tools'
-  import { scrollTo } from '@/utils/scroll-to'
-  const FOLDING_HEIGHT = '200px'
+  import { addClass, removeClass } from '@/utils/tools'
+  /** version: v1 */
+  // import { getFinalStyle } from '@/utils/tools'
+  // import { scrollTo } from '@/utils/scroll-to'
+  // const FOLDING_HEIGHT = '200px'
 
   export default {
     name: 'CalendarDemo',
@@ -26,34 +28,48 @@
       return {
         defaultHeight: '',
         height: '',
-        expand: false
+        expand: true
       }
     },
     mounted () {
-      this.defaultHeight = parseFloat(getFinalStyle(this.$el.querySelector('.van-calendar__days'), 'height')) + 48.58 * 2 + 32.8 + 'px'
-      this.height = FOLDING_HEIGHT
-      this.$nextTick(() => {
-        scrollTo(
-          this.$el.querySelector('.van-calendar__body'),
-          this.$el.querySelector('.van-calendar__body').scrollTop + this.$el.querySelector('.van-calendar__selected-day').getBoundingClientRect().top - 135,
-          200
-        )
-      })
+      /** version: v1 */
+      // this.defaultHeight = parseFloat(getFinalStyle(this.$el.querySelector('.van-calendar__days'), 'height')) + 48.58 * 2 + 32.8 + 'px'
+      // this.height = FOLDING_HEIGHT
+      // this.$nextTick(() => {
+      //   scrollTo(
+      //     this.$el.querySelector('.van-calendar__body'),
+      //     this.$el.querySelector('.van-calendar__body').scrollTop + this.$el.querySelector('.van-calendar__selected-day').getBoundingClientRect().top - 135,
+      //     200
+      //   )
+      // })
     },
     methods: {
       click () {
         this.expand = !this.expand
+        /** version: v1 */
+        // if (this.expand) {
+        //   this.height = this.defaultHeight
+        //   this.$refs.calendar.scrollToDate(new Date())
+        // } else {
+        //   this.height = FOLDING_HEIGHT
+        //   setTimeout(() => {
+        //     // this.$el.querySelector('.van-calendar__selected-day').scrollIntoView({
+        //     //   behavior: 'smooth'
+        //     // })
+        //     scrollTo(this.$el.querySelector('.van-calendar__body'), this.$el.querySelector('.van-calendar__body').scrollTop + this.$el.querySelector('.van-calendar__selected-day').getBoundingClientRect().top - 135, 300)
+        //   }, 300)
+        // }
         if (this.expand) {
-          this.height = this.defaultHeight
-          this.$refs.calendar.scrollToDate(new Date())
+          this.$el.querySelectorAll('.van-calendar__day').forEach(el => {
+            removeClass(el, 'fade-out')
+          })
         } else {
-          this.height = FOLDING_HEIGHT
-          setTimeout(() => {
-            // this.$el.querySelector('.van-calendar__selected-day').scrollIntoView({
-            //   behavior: 'smooth'
-            // })
-            scrollTo(this.$el.querySelector('.van-calendar__body'), this.$el.querySelector('.van-calendar__body').scrollTop + this.$el.querySelector('.van-calendar__selected-day').getBoundingClientRect().top - 135, 300)
-          }, 300)
+          this.$el.querySelectorAll('.van-calendar__day').forEach(el => {
+            const selectedNode = this.$el.querySelector('.van-calendar__selected-day').parentNode
+            if (el !== selectedNode && el.getBoundingClientRect().top !== selectedNode.getBoundingClientRect().top) {
+              addClass(el, 'fade-out')
+            }
+          })
         }
       }
     }
@@ -62,7 +78,16 @@
 
 <style lang="scss" scoped>
   .van-calendar {
-    transition: all ease-in-out .3s;
+    // transition: all ease-in-out .3s;
     background-color: aliceblue;
+
+    ::v-deep .van-calendar__day {
+      transition: height ease-in-out .4s, opacity ease-in-out .4s;
+
+      &.fade-out {
+        height: 0;
+        opacity: 0;
+      }
+    }
   }
 </style>
