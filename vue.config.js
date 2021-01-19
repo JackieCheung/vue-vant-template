@@ -236,7 +236,7 @@ module.exports = {
       // config.plugin('compressionPlugin')
       //   .use(new CompressionPlugin({
       //     algorithm: 'gzip',
-      //     test: /\.(js|css|json|txt|html|ico|svg|jpg|jpeg|png|gif|woff|woff2|ttf)(\?.*)?$/i, // 所有匹配该正则的资源都会被处理，默认值是全部资源
+      //     test: /\.(js|css|json|txt|html|ico|svg|bmp|woff|woff2|ttf)(\?.*)?$/i, // 所有匹配该正则的资源都会被处理，图片（png、gif、jpg、jpeg）不进行压缩，默认值是全部资源
       //     threshold: 1024 * 10, // 只有大小大于该值的资源会被处理，单位是 bytes，默认值是 0
       //     deleteOriginalAssets: false, // 是否删除原始资源，默认值是 false，若设置为 true，则 Nginx 的 gzip_static 静态压缩不会生效，需要 Nginx 配置在线压缩
       //     minRatio: 0.8 // 只有压缩率（压缩大小 ÷ 原始大小）小于该值的资源才会被处理，默认值是 0.8
