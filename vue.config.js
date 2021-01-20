@@ -75,6 +75,7 @@ module.exports = {
       warnings: false,
       errors: true
     },
+    disableHostCheck: true,
     proxy: {
       // change xxx-api/login => mock/login
       // detail: https://cli.vuejs.org/config/#devserver-proxy
