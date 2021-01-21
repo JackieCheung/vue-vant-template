@@ -11,19 +11,15 @@
       :lazy-render="false"
       :style="{ height: height }"
       :show-mark="false"
+      @select="handleSelect"
     />
     <br />
-    <van-button type="primary" @click="click"> click</van-button>
+    <van-button type="primary" @click="expand = !expand"> click</van-button>
   </div>
 </template>
 
 <script>
-  import { addClass, removeClass } from '@/utils/tools'
   import dayjs from 'dayjs'
-  /** version: v1 */
-  // import { getFinalStyle } from '@/utils/tools'
-  // import { scrollTo } from '@/utils/scroll-to'
-  // const FOLDING_HEIGHT = '200px'
 
   export default {
     name: 'CalendarDemo',
@@ -32,97 +28,83 @@
         defaultHeight: '',
         height: '',
         expand: true,
-        currentMonth: dayjs().format('YYYY-MM')
+        currentDate: dayjs().format('YYYY-MM-DD'),
+        selectedDate: dayjs().format('YYYY-MM-DD')
       }
     },
     computed: {
       minDate () {
-        return new Date(dayjs(this.currentMonth).startOf('month').startOf('week').format('YYYY-MM-DD'))
+        return new Date(dayjs(this.currentDate).startOf('month').startOf('week').format('YYYY/MM/DD'))
       },
       maxDate () {
-        return new Date(dayjs(this.currentMonth).endOf('month').endOf('week').format('YYYY-MM-DD'))
+        return new Date(dayjs(this.currentDate).endOf('month').endOf('week').format('YYYY/MM/DD'))
       }
     },
     mounted () {
-      /** version: v1 */
-      // this.defaultHeight = parseFloat(getFinalStyle(this.$el.querySelector('.van-calendar__days'), 'height')) + 48.58 * 2 + 32.8 + 'px'
-      // this.height = FOLDING_HEIGHT
-      // this.$nextTick(() => {
-      //   scrollTo(
-      //     this.$el.querySelector('.van-calendar__body'),
-      //     this.$el.querySelector('.van-calendar__body').scrollTop + this.$el.querySelector('.van-calendar__selected-day').getBoundingClientRect().top - 135,
-      //     200
-      //   )
-      // })
       this.$nextTick(() => {
-        this.$el.querySelectorAll('.van-calendar__month-title').forEach((el, index) => {
-          const parentNode = el.parentNode
-          el.nextElementSibling.style.marginTop = '-17.06667vw'
-          parentNode.removeChild(el)
-        })
+        this.$el.querySelectorAll('.van-calendar__month-title').forEach(el => { el.parentNode.removeChild(el) })
       })
     },
     methods: {
-      formatter (day) {
-        if (day.type === 'disabled') {
-          day.className = 'd-none'
-        }
-        return day
+      handleSelect (date) {
+        this.selectedDate = dayjs(date).format('YYYY-MM-DD')
       },
-      click () {
-        this.expand = !this.expand
-        /** version: v1 */
-        // if (this.expand) {
-        //   this.height = this.defaultHeight
-        //   this.$refs.calendar.scrollToDate(new Date())
-        // } else {
-        //   this.height = FOLDING_HEIGHT
-        //   setTimeout(() => {
-        //     // this.$el.querySelector('.van-calendar__selected-day').scrollIntoView({
-        //     //   behavior: 'smooth'
-        //     // })
-        //     scrollTo(this.$el.querySelector('.van-calendar__body'), this.$el.querySelector('.van-calendar__body').scrollTop + this.$el.querySelector('.van-calendar__selected-day').getBoundingClientRect().top - 135, 300)
-        //   }, 300)
-        // }
-        if (this.expand) {
-          for (const el of this.$el.querySelectorAll('.van-calendar__day')) {
-            removeClass(el, 'fade-out')
-            removeClass(el, 'hidden')
-          }
-        } else {
-          const selectedNode = this.$el.querySelector('.van-calendar__selected-day').parentNode
-          for (const el of this.$el.querySelectorAll('.van-calendar__day')) {
-            if (el === selectedNode) continue
-            if (el.getBoundingClientRect().top !== selectedNode.getBoundingClientRect().top) {
-              if (el.parentNode.parentNode !== selectedNode.parentNode.parentNode) {
-                addClass(el, 'hidden')
-              } else {
-                addClass(el, 'fade-out')
-              }
-            }
-          }
-        }
+      formatter (day) {
+        const classArr = []
+        if (day.type === 'disabled') classArr.push('d-none')
+        if (day.type === 'selected') classArr.push('selected')
+        if (dayjs(day.date).isBefore(this.currentDate, 'month')) classArr.push('prev-month')
+        if (dayjs(day.date).isSame(this.currentDate, 'month')) classArr.push('same-month')
+        if (dayjs(day.date).isAfter(this.currentDate, 'month')) classArr.push('next-month')
+        if (dayjs(day.date).isSame(this.selectedDate, 'week')) classArr.push('same-week')
+        if (!this.expand && !classArr.includes('same-week')) classArr.push('fade-out')
+        day.className = classArr.join(' ')
+        return day
       }
     }
   }
 </script>
 
 <style lang="scss" scoped>
-  .van-calendar {
-    // transition: all ease-in-out .3s;
-    background-color: aliceblue;
+.van-calendar {
+  background-color: aliceblue;
 
-    ::v-deep .van-calendar__day {
-      transition: height ease-in-out .4s, opacity ease-in-out .4s;
+  ::v-deep .van-calendar__days {
+    pointer-events: none;
+
+    .van-calendar__day {
+      pointer-events: auto;
+      transition: all ease-in-out .4s, opacity ease-in-out .4s;
 
       &.fade-out {
-        height: 0;
-        opacity: 0;
+        height: 0 !important;
+        opacity: 0 !important;
       }
 
-      &.hidden {
-        opacity: 0;
+      &.prev-month {
+        margin-bottom: -17.06667vw;
+
+        &.fade-out {
+          margin-bottom: 0;
+        }
+      }
+
+      &.next-month {
+        margin-top: -17.06667vw;
+
+        &.fade-out {
+          margin-top: 0;
+        }
+      }
+
+      &.prev-month, &.next-month {
+        opacity: 0.5;
+      }
+
+      &.selected {
+        opacity: 1;
       }
     }
   }
+}
 </style>
