@@ -8,6 +8,8 @@ function resolve (dir) {
 const autoprefixer = require('autoprefixer')
 const pxToViewport = require('postcss-px-to-viewport')
 
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
+
 const LodashModuleReplacementPlugin = require('lodash-webpack-plugin')
 
 // const CompressionPlugin = require('compression-webpack-plugin')
@@ -142,6 +144,9 @@ module.exports = {
     //   return args
     // })
 
+    // Visualize size of webpack output files with an interactive zoomable treemap.
+    config.plugin('webpack-bundle-analyzer').use(BundleAnalyzerPlugin)
+
     // it can improve the speed of the first screen, it is recommended to turn on preload
     config.plugin('preload').tap(() => [
       {
@@ -199,42 +204,44 @@ module.exports = {
     //   )
 
     config
-      .when(process.env.NODE_ENV !== 'development', config => {
-        config
-          .plugin('ScriptExtHtmlWebpackPlugin')
-          .after('html')
-          .use('script-ext-html-webpack-plugin', [{
-            // `runtime` must same as runtimeChunk name. default is `runtime`
-            inline: /runtime\..*\.js$/
-          }])
-          .end()
-        config
-          .optimization
-          .splitChunks({
-            chunks: 'all',
-            cacheGroups: {
-              libs: {
-                name: 'chunk-libs',
-                test: /[\\/]node_modules[\\/]/,
-                priority: 10,
-                chunks: 'initial' // only package third parties that are initially dependent
-              },
-              commons: {
-                name: 'chunk-commons',
-                test: resolve('src/components'), // can customize your rules
-                minChunks: 3, //  minimum common number
-                priority: 5,
-                reuseExistingChunk: true
+      .when(process.env.NODE_ENV !== 'development',
+        config => {
+          config
+            .plugin('ScriptExtHtmlWebpackPlugin')
+            .after('html')
+            .use('script-ext-html-webpack-plugin', [{
+              // `runtime` must same as runtimeChunk name. default is `runtime`
+              inline: /runtime\..*\.js$/
+            }])
+            .end()
+          config
+            .optimization
+            .splitChunks({
+              chunks: 'all',
+              cacheGroups: {
+                libs: {
+                  name: 'chunk-libs',
+                  test: /[\\/]node_modules[\\/]/,
+                  priority: 10,
+                  chunks: 'initial' // only package third parties that are initially dependent
+                },
+                commons: {
+                  name: 'chunk-commons',
+                  test: resolve('src/components'), // can customize your rules
+                  minChunks: 3, //  minimum common number
+                  priority: 5,
+                  reuseExistingChunk: true
+                }
               }
-            }
-          })
-        config.optimization.runtimeChunk('single')
-      }
+            })
+          config.optimization.runtimeChunk('single')
+        }
       )
-    // 生产环境才开启，不然开发时lodash函数不起作用，也不报错
+
+    config.plugin('lodashModuleReplacement')
+      .use(new LodashModuleReplacementPlugin())
+
     if (process.env.NODE_ENV === 'production') {
-      config.plugin('lodashModuleReplacement')
-        .use(new LodashModuleReplacementPlugin())
       // // 开启 gzip 压缩
       // config.plugin('compressionPlugin')
       //   .use(new CompressionPlugin({
