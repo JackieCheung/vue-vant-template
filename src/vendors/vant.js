@@ -20,7 +20,6 @@ import {
   Loading,
   Popup,
   Divider,
-  Panel,
   DatetimePicker,
   Picker,
   Area,
@@ -49,7 +48,6 @@ Vue
   .use(Loading)
   .use(Popup)
   .use(Divider)
-  .use(Panel)
   .use(DatetimePicker)
   .use(Picker)
   .use(Area)
