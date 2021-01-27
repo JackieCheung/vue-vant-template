@@ -19,40 +19,40 @@ const name = process.env.VUE_APP_TITLE || 'Vue Vant Template' // page title
 // port = 9527 npm run dev OR npm run dev --port = 9527
 const port = process.env.port || process.env.npm_config_port || 9527 // dev port
 
-// key: package name
-// value: global variable name
-// key是import的包名，value是CDN提供的全局变量名
-// 所以最后webpack会把一个静态资源编译成：module.export[key] = window[value]
-const externals = {
-  vue: 'Vue',
-  'vue-router': 'VueRouter',
-  vuex: 'Vuex',
-  vant: 'vant',
-  axios: 'axios'
-}
-// cdn
-const cdn = {
-  // 开发环境
-  dev: {
-    css: [],
-    js: ['https://cdnjs.cloudflare.com/ajax/libs/babel-polyfill/7.4.4/polyfill.js']
-  },
-  // 生产环境
-  build: {
-    css: [
-      'https://cdn.jsdelivr.net/npm/vant@beta/lib/index.css'
-    ],
-    js: [
-      'https://cdnjs.cloudflare.com/ajax/libs/babel-polyfill/7.4.4/polyfill.js',
-      'https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.min.js',
-      'https://cdnjs.cloudflare.com/ajax/libs/vue-router/3.1.2/vue-router.min.js',
-      'https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js',
-      'https://cdnjs.cloudflare.com/ajax/libs/vuex/3.1.1/vuex.min.js',
-      'https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/crypto-js.min.js',
-      'https://cdn.jsdelivr.net/npm/vant@beta/lib/vant.min.js'
-    ]
-  }
-}
+// // key: package name
+// // value: global variable name
+// // key是import的包名，value是CDN提供的全局变量名
+// // 所以最后webpack会把一个静态资源编译成：module.export[key] = window[value]
+// const externals = {
+//   vue: 'Vue',
+//   'vue-router': 'VueRouter',
+//   vuex: 'Vuex',
+//   vant: 'vant',
+//   axios: 'axios'
+// }
+// // cdn
+// const cdn = {
+//   // 开发环境
+//   dev: {
+//     css: [],
+//     js: ['https://cdnjs.cloudflare.com/ajax/libs/babel-polyfill/7.4.4/polyfill.js']
+//   },
+//   // 生产环境
+//   build: {
+//     css: [
+//       'https://cdn.jsdelivr.net/npm/vant@beta/lib/index.css'
+//     ],
+//     js: [
+//       'https://cdnjs.cloudflare.com/ajax/libs/babel-polyfill/7.4.4/polyfill.js',
+//       'https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.min.js',
+//       'https://cdnjs.cloudflare.com/ajax/libs/vue-router/3.1.2/vue-router.min.js',
+//       'https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js',
+//       'https://cdnjs.cloudflare.com/ajax/libs/vuex/3.1.1/vuex.min.js',
+//       'https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/crypto-js.min.js',
+//       'https://cdn.jsdelivr.net/npm/vant@beta/lib/vant.min.js'
+//     ]
+//   }
+// }
 
 // All configuration item explanations can be find in https://cli.vuejs.org/config/
 module.exports = {
@@ -127,18 +127,18 @@ module.exports = {
     }
   },
   chainWebpack (config) {
-    /**
-     * 添加CDN参数到htmlWebpackPlugin配置中， 详见public/index.html 修改
-     */
-    config.plugin('html').tap(args => {
-      if (process.env.NODE_ENV === 'production') {
-        args[0].cdn = cdn.build
-      }
-      if (process.env.NODE_ENV === 'development') {
-        args[0].cdn = cdn.dev
-      }
-      return args
-    })
+    // /**
+    //  * 添加CDN参数到htmlWebpackPlugin配置中， 详见public/index.html 修改
+    //  */
+    // config.plugin('html').tap(args => {
+    //   if (process.env.NODE_ENV === 'production') {
+    //     args[0].cdn = cdn.build
+    //   }
+    //   if (process.env.NODE_ENV === 'development') {
+    //     args[0].cdn = cdn.dev
+    //   }
+    //   return args
+    // })
 
     // it can improve the speed of the first screen, it is recommended to turn on preload
     config.plugin('preload').tap(() => [
