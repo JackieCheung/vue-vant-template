@@ -55,4 +55,9 @@ Vue
   .use(Checkbox)
   .use(Calendar)
 
+Toast.setDefaultOptions('loading', {
+  forbidClick: true,
+  duration: 0
+})
+
 Vue.prototype.$imagePreview = ImagePreview
