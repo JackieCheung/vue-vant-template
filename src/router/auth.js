@@ -2,7 +2,7 @@ import router from '@/router/index'
 import store from '@/store'
 import NProgress from 'nprogress' // progress bar
 import 'nprogress/nprogress.css' // progress bar style
-import { getAccessToken } from '@/utils/token' // get token from localstorage
+import { getAccessToken } from '@/utils/token' // get token from sessionStorage
 import { getPageTitle } from '@/utils/tools'
 
 NProgress.configure({ showSpinner: false }) // NProgress Configuration
@@ -79,6 +79,7 @@ router.beforeEach(async (to, from, next) => {
     }
   }
 })
+
 router.afterEach(() => {
   // finish progress bar
   NProgress.done()

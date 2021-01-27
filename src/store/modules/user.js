@@ -64,7 +64,7 @@ const actions = {
   },
 
   // get user info
-  getUserInfo ({ commit, state }) {
+  getUserInfo ({ commit }) {
     return new Promise((resolve, reject) => {
       getUserInfo().then(res => {
         const { code, data, msg } = res
@@ -90,7 +90,7 @@ const actions = {
   },
 
   // user logout
-  logout ({ commit, state, dispatch }) {
+  logout ({ commit, dispatch }) {
     return new Promise((resolve, reject) => {
       logout().then(() => {
         commit('SET_ACCESS_TOKEN', '')
@@ -165,10 +165,7 @@ const actions = {
   },
 
   // update user info
-  updateUserInfo ({
-    commit,
-    state
-  }, userInfo) {
+  updateUserInfo ({ commit, state }, userInfo) {
     commit('SET_USER_INFO', {
       ...state.userInfo,
       ...userInfo

@@ -8,6 +8,7 @@
     "dev": "vue-cli-service serve --open",
     "build:prod": "vue-cli-service build",
     "build:stage": "vue-cli-service build --mode staging",
+    "build:test": "vue-cli-service build --mode test",
     "preview": "node build/index.js --preview",
     "lint": "eslint --ext .js,.vue src",
     "test:unit": "jest --clearCache && vue-cli-service test:unit",
@@ -116,6 +117,11 @@
   "engines": {
     "node": ">=8.9",
     "npm": ">= 3.0.0"
+  },
+  "postcss": {
+    "plugins": {
+      "autoprefixer": {}
+    }
   },
   "browserslist": [
     "> 1%",

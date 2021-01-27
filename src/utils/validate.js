@@ -102,7 +102,7 @@ export const isObject = (arg) => {
 }
 
 /**
- * @description 判断是否为函数
+ * @description determine whether is a function or not
  * @param { * } arg
  * @returns { Boolean }
  */
@@ -170,7 +170,7 @@ export function validPassword (password) {
 }
 
 /**
- * @description 判断元素内部的滚动条是否滚动到元素底部
+ * @description determine whether the scroll bar inside the element is scrolled to the bottom of the element, true if scrollTop + clientHeight === scrollHeight
  * @param { HTMLElement } element
  * @returns { Boolean }
  * @author Jackie
@@ -228,7 +228,7 @@ export const validTaiwanPass = (TaiwanPass) => {
 }
 
 /**
- * @description 判断是否为空
+ * @description determine whether the val is empty or not
  * @param { * } val
  * @returns { Boolean }
  */
@@ -264,8 +264,8 @@ export const isEmpty = (val) => {
 }
 
 /**
- * @description 判断图片地址是否有效
- * @param { String } url 图片地址
+ * @description validate whether is an valid image or not
+ * @param { String } url the url of image
  * @returns { Promise }
  * @author Jackie
  * @date 2020-04-03 08:17

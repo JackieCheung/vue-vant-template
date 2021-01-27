@@ -10,6 +10,8 @@ const pxToViewport = require('postcss-px-to-viewport')
 
 const LodashModuleReplacementPlugin = require('lodash-webpack-plugin')
 
+// const CompressionPlugin = require('compression-webpack-plugin')
+
 const name = process.env.VUE_APP_TITLE || 'Vue Vant Template' // page title
 
 // If your port is set to 80,
@@ -75,7 +77,7 @@ module.exports = {
       warnings: false,
       errors: true
     },
-    disableHostCheck: true,
+    disableHostCheck: process.env.NODE_ENV === 'development',
     proxy: {
       // change xxx-api/login => mock/login
       // detail: https://cli.vuejs.org/config/#devserver-proxy

@@ -107,7 +107,7 @@ export function formatTime (time, option) {
  * @returns { Object }
  */
 export function getQueryObject (url) {
-  url = url || window.location.href
+  url = url || location.href
   const search = url.substring(url.lastIndexOf('?') + 1)
   const obj = {}
   const reg = /([^?&=]+)=([^?&=]*)/g
@@ -511,7 +511,7 @@ export const invokeWeixinJSBridge = callback => {
 }
 
 /**
- * @description 转换短横线式为驼峰式
+ * @description transform kebab-case to camelCase
  * @param { String } str
  * @returns { String }
  * @author Jackie
@@ -530,7 +530,7 @@ export const getCamelCase = (function () {
 })()
 
 /**
- * @description 转换驼峰式为短横线式
+ * @description transform camelCase to kebab-case
  * @param { String } str
  * @returns { String }
  * @author Jackie
@@ -549,7 +549,7 @@ export const getKebabCase = (function () {
 })()
 
 /**
- * @description 转换驼峰式为下划线式
+ * @description transform camelCase to snake_case
  * @param { String } str
  * @returns { String }
  * @author Jackie
@@ -568,7 +568,7 @@ export const getSnakeCase = (function () {
 })()
 
 /**
- * @description 获取元素指定的最终CSS属性值
+ * @description get the final CSS property value of the element
  * @param { HTMLElement } element
  * @param { String } property
  * @returns { * }
@@ -580,10 +580,10 @@ export function getFinalStyle (element, property) {
 }
 
 /**
- * @description 获取两个数组的交集
+ * @description get intersection of two arrays
  * @param { Array } arr1
  * @param { Array } arr2
- * @returns { Array } 两个数组的交集
+ * @returns { Array } intersection of two arrays
  * @author Jackie
  * @date 2020-04-05 02:03
  */
@@ -592,10 +592,10 @@ export const getArrayIntersection = (arr1, arr2) => {
 }
 
 /**
- * @description 获取两个数组的并集
+ * @description get union of two arrays
  * @param { Array } arr1
  * @param { Array } arr2
- * @returns { Array } 两个数组的并集
+ * @returns { Array } union of two arrays
  * @author Jackie
  * @date 2020-04-05 02:10
  */
@@ -604,10 +604,10 @@ export const getArrayUnion = (arr1, arr2) => {
 }
 
 /**
- * @description 获取两个数组的差集
+ * @description get difference of two arrays
  * @param { Array } arr1
  * @param { Array } arr2
- * @returns { Array } 两个数组的差集
+ * @returns { Array } difference of two arrays
  * @author Jackie
  * @date 2020-04-05 02:13
  */

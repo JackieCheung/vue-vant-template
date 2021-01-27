@@ -5,7 +5,7 @@ import request from '@/utils/request'
 const setImgSrc = (el, binding) => {
   if (!binding.value) {
     // el.localName === 'img' ? el.src = '' : el.innerHTML = `<span>暂无内容</span>`
-    el.localName === 'img' ? el.src = '' : ''
+    el.localName === 'img' && (el.src = '')
     return false
   }
   let url = ''
@@ -17,7 +17,6 @@ const setImgSrc = (el, binding) => {
     // remove = binding.value.remove || false
   } else {
     url = binding.value || ''
-    fn = null
     // remove = false
   }
   if (typeof binding.oldValue === 'undefined' || JSON.stringify(binding.value) !== JSON.stringify(binding.oldValue)) {
@@ -34,10 +33,10 @@ const setImgSrc = (el, binding) => {
         //   !res && remove ? el.parentNode.removeChild(el) : ''
         // })
         const src = response.data
-        el.localName === 'img' ? el.src = src : ''
+        el.localName === 'img' && (el.src = src)
         fn && fn(src)
       } else {
-        el.localName === 'img' ? el.src = '' : ''
+        el.localName === 'img' && (el.src = '')
         fn && fn('')
         // remove ? el.parentNode.removeChild(el) : ''
       }
@@ -52,7 +51,7 @@ const setImgSrc = (el, binding) => {
     }).catch(error => {
       console.error(error)
       // el.localName === 'img' ? el.src = '' : el.innerHTML = `<span>加载失败</span>`
-      el.localName === 'img' ? el.src = '' : ''
+      el.localName === 'img' && (el.src = '')
       fn && fn('')
       // remove ? el.parentNode.removeChild(el) : ''
     })
