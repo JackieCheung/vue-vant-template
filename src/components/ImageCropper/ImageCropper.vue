@@ -64,7 +64,7 @@
 </template>
 
 <script>
-  import debounce from 'lodash/debounce'
+  import _ from 'lodash'
   /**
    * more detail
    * @see https://github.com/xyxiao001/vue-cropper
@@ -170,7 +170,7 @@
         this.$emit('img-load', status === 'success')
         this.$emit('imgLoad', status === 'success')
       },
-      handleRealTime: debounce(function (obj) {
+      handleRealTime: _.debounce(function (obj) {
         this.getCropData(data => { this.preview.url = data })
         this.$emit('realTime', obj)
         this.$emit('real-time', obj)

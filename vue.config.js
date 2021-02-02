@@ -8,12 +8,6 @@ function resolve (dir) {
 const autoprefixer = require('autoprefixer')
 const pxToViewport = require('postcss-px-to-viewport')
 
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
-
-const LodashModuleReplacementPlugin = require('lodash-webpack-plugin')
-
-// const CompressionPlugin = require('compression-webpack-plugin')
-
 const name = process.env.VUE_APP_TITLE || 'Vue Vant Template' // page title
 
 // If your port is set to 80,
@@ -144,9 +138,6 @@ module.exports = {
     //   return args
     // })
 
-    // Visualize size of webpack output files with an interactive zoomable treemap.
-    config.plugin('webpack-bundle-analyzer').use(BundleAnalyzerPlugin)
-
     // it can improve the speed of the first screen, it is recommended to turn on preload
     config.plugin('preload').tap(() => [
       {
@@ -178,22 +169,21 @@ module.exports = {
       })
       .end()
 
-    // set preserveWhitespace
-    config.module
-      .rule('vue')
-      .use('vue-loader')
-      .loader('vue-loader')
-      .tap(options => {
-        options.compilerOptions.preserveWhitespace = true
-        return options
-      })
-      .end()
-
     /**
      * preserveWhitespace Deprecated since vue@2.6
      * Recommend whitespace: 'condense', it is the default config in new vue-cli https://github.com/vuejs/vue-cli/pull/3853
      * Detail: https://github.com/vuejs/vue/issues/9208#issuecomment-450012518
      */
+    // // set preserveWhitespace
+    // config.module
+    //   .rule('vue')
+    //   .use('vue-loader')
+    //   .loader('vue-loader')
+    //   .tap(options => {
+    //     options.compilerOptions.preserveWhitespace = true
+    //     return options
+    //   })
+    //   .end()
 
     // // use vue-cli default source-map
     // config
@@ -234,15 +224,24 @@ module.exports = {
                 }
               }
             })
+          // https:// webpack.js.org/configuration/optimization/#optimizationruntimechunk
           config.optimization.runtimeChunk('single')
         }
       )
 
-    config.plugin('lodashModuleReplacement')
-      .use(new LodashModuleReplacementPlugin())
-
     if (process.env.NODE_ENV === 'production') {
+      // Visualize size of webpack output files with an interactive zoomable treemap.
+      const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
+      config.plugin('webpack-bundle-analyzer').use(BundleAnalyzerPlugin).tap(() => [{
+        analyzerMode: 'static'
+      }])
+
+      // Create smaller Lodash builds by replacing feature sets of modules with noop, identity, or simpler alternatives.
+      const LodashModuleReplacementPlugin = require('lodash-webpack-plugin')
+      config.plugin('lodashModuleReplacement').use(new LodashModuleReplacementPlugin())
+
       // // 开启 gzip 压缩
+      // const CompressionPlugin = require('compression-webpack-plugin')
       // config.plugin('compressionPlugin')
       //   .use(new CompressionPlugin({
       //     algorithm: 'gzip',

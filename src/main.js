@@ -1,20 +1,26 @@
 import Vue from 'vue'
-
-import 'normalize.css/normalize.css' // a modern alternative to CSS resets
-import '@/assets/styles/index.scss' // global css
-
-import App from './App'
 import store from './store'
 import router from './router'
+import App from './App'
+
+import 'normalize.css/normalize.css' // a modern alternative to CSS resets
+import './assets/styles/index.scss' // global css
 
 import './router/auth' // permission control
 
-import * as filters from './filters' // global filters
-import '@/vendors' // 统一 import 依赖
+import './assets/icons' // Svg Icon
+
+import './vendors' // 统一 import 依赖
 
 // registers customized directives
-import directives from '@/directives'
+import directives from './directives'
 Vue.use(directives)
+
+// registers global utility filters
+import * as filters from './filters'
+Object.keys(filters).forEach(key => {
+  Vue.filter(key, filters[key])
+})
 
 /**
  * If you don't want to use mock-server
@@ -29,11 +35,6 @@ Vue.use(directives)
 //   mockXHR()
 // }
 
-// register global utility filters
-Object.keys(filters).forEach(key => {
-  Vue.filter(key, filters[key])
-})
-
 // register an event hub
 Vue.prototype.$eventHub = Vue.prototype.$eventHub || new Vue()
 
@@ -44,8 +45,6 @@ Vue.prototype.$log = Vue.prototype.$log || console.log
 Window.prototype.assert = Window.prototype.assert || console.assert || function assert (condition, msg) {
   if (!condition) throw new Error(msg || 'Assert Error!')
 }
-
-document.addEventListener('touchstart', event => {})
 
 Vue.config.productionTip = false
 
