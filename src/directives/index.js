@@ -1,8 +1,11 @@
-import authImage from '@/directives/auth-image'
+import { getCamelCase } from '@/utils/tools'
 
-const directives = {
-  authImage
-}
+const ctx = require.context('./', true, /(?!\.).(\/index\.js)$/)
+
+const directives = ctx.keys().reduce((res, key) => {
+  res[getCamelCase(key.match(/(?<=\.\/).*?(?=\/)/)[0])] = ctx(key).default
+  return res
+}, {})
 
 export default {
   install (Vue) {
