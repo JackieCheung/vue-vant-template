@@ -152,10 +152,10 @@ const actions = {
       resetRouter()
 
       // generate accessible routes map based on roles
-      const accessRoutes = await dispatch('permission/generateRoutes', roles, { root: true })
+      const accessibleRoutes = (await dispatch('permission/generateRoutes', roles, { root: true })) || []
 
       // dynamically add accessible routes
-      router.addRoutes(accessRoutes)
+      accessibleRoutes.forEach(route => router.addRoute(route))
 
       // reset visited views and cached views
       dispatch('routerView/delAllViews', null, { root: true })
