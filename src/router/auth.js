@@ -63,6 +63,10 @@ router.beforeEach(async (to, from, next) => {
           // remove token and go to login page to re-login
           await store.dispatch('user/resetToken')
           next(`/login?redirect=${encodeURIComponent(to.fullPath)}`)
+          // next({
+          //   path: '/login',
+          //   query: { redirect: to.path, ...to.query }
+          // })
           NProgress.done()
         }
       }
@@ -75,6 +79,10 @@ router.beforeEach(async (to, from, next) => {
     } else {
       // other pages that do not have permission to access are redirected to the login page
       next(`/login?redirect=${encodeURIComponent(to.fullPath)}`)
+      // next({
+      //   path: '/login',
+      //   query: { redirect: to.path, ...to.query }
+      // })
       NProgress.done()
     }
   }
