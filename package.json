@@ -14,12 +14,8 @@
     "test:unit": "jest --clearCache && vue-cli-service test:unit",
     "test:ci": "npm run lint && npm run test:unit",
     "svgo": "svgo -f src/icons/svg --config=src/icons/svgo.yml",
-    "new": "plop"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
+    "new": "plop",
+    "postinstall": "husky install"
   },
   "lint-staged": {
     "src/**/*.{js,vue}": [
