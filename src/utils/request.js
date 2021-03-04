@@ -154,7 +154,7 @@ class PendingRequest {
     this.cancelDuplicateRequest = !!cancelDuplicateRequest
     // store the identity and cancellation function for each request
     this.pendingRequest = new Map()
-    this.duplicateKeyFn = isFunction(duplicateKeyFn) ? duplicateKeyFn : config => `method: ${config.method} & url: ${config.url}`
+    this.duplicateKeyFn = isFunction(duplicateKeyFn) ? duplicateKeyFn : config => `method: ${config.method} & url: ${config.url}${config.params && ' & params: ' + JSON.stringify(config.params)}`
   }
 
   /**
