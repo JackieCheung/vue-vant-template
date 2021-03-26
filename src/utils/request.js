@@ -89,7 +89,6 @@ HttpRequest.interceptors.response.use(
                 accessToken,
                 refreshToken
               })
-              config.baseURL = ''
               config.headers['Authorization'] = accessToken
               reRequestQueue.forEach(cb => cb(accessToken))
               reRequestQueue = []
@@ -118,7 +117,6 @@ HttpRequest.interceptors.response.use(
         } else {
           return new Promise(resolve => {
             reRequestQueue.push(accessToken => {
-              config.baseURL = ''
               config.headers['Authorization'] = accessToken
               resolve(HttpRequest(config))
             })
