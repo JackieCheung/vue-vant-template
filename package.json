@@ -13,7 +13,7 @@
     "lint": "eslint --ext .js,.vue src",
     "test:unit": "jest --clearCache && vue-cli-service test:unit",
     "test:ci": "npm run lint && npm run test:unit",
-    "svgo": "svgo -f src/icons/svg --config=src/icons/svgo.yml",
+    "svgo": "svgo -f src/assets/icons/svg --config=src/assets/icons/svgo.config.js",
     "new": "plop",
     "prepare": "husky install"
   },
@@ -107,6 +107,7 @@
     "ssh2": "^0.8.9",
     "svg-sprite-loader": "^6.0.2",
     "svgo": "^2.3.0",
+    "svgo-loader": "^3.0.0",
     "tasksfile": "^5.1.1",
     "vue-template-compiler": "^2.6.12",
     "webpack-bundle-analyzer": "^4.4.0"

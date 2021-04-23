@@ -168,6 +168,13 @@ module.exports = {
         symbolId: 'icon-[name]'
       })
       .end()
+      // .use('svgo-loader')
+      // .loader('svgo-loader')
+      // .options({
+      //   plugins: require('svgo')['extendDefaultPlugins'](require('./src/assets/icons/svgo.config.js').plugins)
+      //   // configFile: resolve('src/assets/icons/svgo.config.js')
+      // })
+      // .end()
 
     /**
      * preserveWhitespace Deprecated since vue@2.6
