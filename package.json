@@ -97,7 +97,7 @@
     "multer": "^1.4.2",
     "plop": "^2.7.4",
     "postcss-px-to-viewport": "^1.1.1",
-    "sass": "^1.32.12",
+    "sass": "^1.32.13",
     "sass-loader": "^10.1.1",
     "scp2": "^0.5.0",
     "script-ext-html-webpack-plugin": "^2.1.5",
