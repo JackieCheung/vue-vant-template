@@ -21,8 +21,10 @@ function unregisterRoutes () {
 
 // for mock server
 const responseFake = (url, type, resp) => {
+  const _url = `${process.env.VUE_APP_BASE_API}${url}`
   return {
-    url: new RegExp(`^${process.env.VUE_APP_BASE_API}${url}$`),
+    // 如果 url 存在 `/:` 不使用正则url
+    url: /\/:/.test(_url) ? _url : new RegExp(`^${_url}$`),
     type: type || 'get',
     response (req, res) {
       console.log('request invoke:' + req.path)
@@ -36,9 +38,11 @@ let mockRouter = null
 const setupMocks = app => {
   mockRouter = new express.Router()
   const { mocks } = require('./index.js')
-  const mocksForServer = mocks.map(route => {
-    return responseFake(route.url, route.type, route.response)
-  })
+  const mocksForServer = mocks
+    .sort((a, b) => b.url.localeCompare(a.url))
+    .map(route => {
+      return responseFake(route.url, route.type, route.response)
+    })
   for (const mock of mocksForServer) {
     mockRouter[mock.type](mock.url, bodyParser.json(), bodyParser.urlencoded({
       extended: true
